@@ -375,11 +375,11 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[10] = list[i];
+    	child_ctx[11] = list[i];
     	return child_ctx;
     }
 
-    // (112:1) {#if !current_match_loading}
+    // (122:1) {#if !current_match_loading}
     function create_if_block(ctx) {
     	let t0_value = /*settings*/ ctx[0].map_types[/*current_match*/ ctx[1].map_type].string + "";
     	let t0;
@@ -407,7 +407,7 @@ var app = (function () {
     			}
 
     			each_1_anchor = empty();
-    			add_location(br, file, 114, 2, 2821);
+    			add_location(br, file, 124, 2, 3058);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -462,31 +462,31 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(112:1) {#if !current_match_loading}",
+    		source: "(122:1) {#if !current_match_loading}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (117:2) {#each current_match.players as player}
+    // (127:2) {#each current_match.players as player}
     function create_each_block(ctx) {
     	let img;
     	let img_src_value;
     	let t0;
-    	let t1_value = /*player*/ ctx[10].name + "";
+    	let t1_value = /*player*/ ctx[11].name + "";
     	let t1;
     	let t2;
-    	let t3_value = /*player*/ ctx[10].rating + "";
+    	let t3_value = /*player*/ ctx[11].rating + "";
     	let t3;
     	let t4;
-    	let t5_value = /*player*/ ctx[10].my_winrate + "";
+    	let t5_value = /*player*/ ctx[11].my_winrate + "";
     	let t5;
     	let t6;
-    	let t7_value = /*player*/ ctx[10].my_wins + "";
+    	let t7_value = /*player*/ ctx[11].my_wins + "";
     	let t7;
     	let t8;
-    	let t9_value = /*player*/ ctx[10].my_losses + "";
+    	let t9_value = /*player*/ ctx[11].my_losses + "";
     	let t9;
     	let t10;
     	let br;
@@ -508,10 +508,10 @@ var app = (function () {
     			br = element("br");
     			attr_dev(img, "width", "55");
     			attr_dev(img, "height", "31");
-    			if (!src_url_equal(img.src, img_src_value = `https://raw.githubusercontent.com/FluffyMaguro/AoE4_Overlay/main/src/img/flags/${/*settings*/ ctx[0].civs[/*player*/ ctx[10].civ].string}.webp`)) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = `https://raw.githubusercontent.com/FluffyMaguro/AoE4_Overlay/main/src/img/flags/${/*settings*/ ctx[0].civs[/*player*/ ctx[11].civ].string}.webp`)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			add_location(img, file, 117, 3, 2874);
-    			add_location(br, file, 119, 3, 3141);
+    			add_location(img, file, 127, 3, 3111);
+    			add_location(br, file, 129, 3, 3378);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -529,15 +529,15 @@ var app = (function () {
     			insert_dev(target, br, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*settings, current_match*/ 3 && !src_url_equal(img.src, img_src_value = `https://raw.githubusercontent.com/FluffyMaguro/AoE4_Overlay/main/src/img/flags/${/*settings*/ ctx[0].civs[/*player*/ ctx[10].civ].string}.webp`)) {
+    			if (dirty & /*settings, current_match*/ 3 && !src_url_equal(img.src, img_src_value = `https://raw.githubusercontent.com/FluffyMaguro/AoE4_Overlay/main/src/img/flags/${/*settings*/ ctx[0].civs[/*player*/ ctx[11].civ].string}.webp`)) {
     				attr_dev(img, "src", img_src_value);
     			}
 
-    			if (dirty & /*current_match*/ 2 && t1_value !== (t1_value = /*player*/ ctx[10].name + "")) set_data_dev(t1, t1_value);
-    			if (dirty & /*current_match*/ 2 && t3_value !== (t3_value = /*player*/ ctx[10].rating + "")) set_data_dev(t3, t3_value);
-    			if (dirty & /*current_match*/ 2 && t5_value !== (t5_value = /*player*/ ctx[10].my_winrate + "")) set_data_dev(t5, t5_value);
-    			if (dirty & /*current_match*/ 2 && t7_value !== (t7_value = /*player*/ ctx[10].my_wins + "")) set_data_dev(t7, t7_value);
-    			if (dirty & /*current_match*/ 2 && t9_value !== (t9_value = /*player*/ ctx[10].my_losses + "")) set_data_dev(t9, t9_value);
+    			if (dirty & /*current_match*/ 2 && t1_value !== (t1_value = /*player*/ ctx[11].name + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*current_match*/ 2 && t3_value !== (t3_value = /*player*/ ctx[11].rating + "")) set_data_dev(t3, t3_value);
+    			if (dirty & /*current_match*/ 2 && t5_value !== (t5_value = /*player*/ ctx[11].my_winrate + "")) set_data_dev(t5, t5_value);
+    			if (dirty & /*current_match*/ 2 && t7_value !== (t7_value = /*player*/ ctx[11].my_wins + "")) set_data_dev(t7, t7_value);
+    			if (dirty & /*current_match*/ 2 && t9_value !== (t9_value = /*player*/ ctx[11].my_losses + "")) set_data_dev(t9, t9_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(img);
@@ -560,7 +560,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(117:2) {#each current_match.players as player}",
+    		source: "(127:2) {#each current_match.players as player}",
     		ctx
     	});
 
@@ -575,7 +575,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			if (if_block) if_block.c();
-    			add_location(main, file, 110, 0, 2727);
+    			add_location(main, file, 120, 0, 2964);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -622,7 +622,14 @@ var app = (function () {
     	validate_slots('App', slots, []);
     	const matches_url = (steam_id, matches_count = 1000) => `https://aoeiv.net/api/player/matches?game=aoe4&steam_id=${steam_id}&count=${matches_count}`;
     	const rating_url = (profile_id, matches_count = 1000) => `https://aoeiv.net/api/player/ratinghistory?game=aoe4&leaderboard_id=17&profile_id=${profile_id}&count=${matches_count}`;
-    	let settings = { steam_id: "", civs: [], map_types: [] };
+
+    	let settings = {
+    		steam_id: "",
+    		civs: [],
+    		map_types: [],
+    		periodic_check: { timer: 0, interval: 15 * 1000 }
+    	};
+
     	let current_match = {};
     	let current_match_loading = true;
 
@@ -683,17 +690,39 @@ var app = (function () {
     	}
 
     	async function get_match_data() {
+    		if (current_match_loading) return;
+    		$$invalidate(2, current_match_loading = true);
     		await get_current_match();
     		await get_current_match_info();
+    		console.log(settings.map_types);
+    		console.log(current_match);
+    		$$invalidate(2, current_match_loading = false);
+    	}
+
+    	function start_periodic_check() {
+    		if (settings.periodic_check.timer) {
+    			return;
+    		}
+
+    		// Refresh data on interval.
+    		$$invalidate(
+    			0,
+    			settings.periodic_check.timer = setInterval(
+    				() => {
+    					get_match_data();
+    				},
+    				settings.periodic_check.interval
+    			),
+    			settings
+    		);
     	}
 
     	onMount(async () => {
     		get_url_info();
     		await get_strings();
-    		await get_match_data();
     		$$invalidate(2, current_match_loading = false);
-    		console.log(settings.map_types);
-    		console.log(current_match);
+    		await get_match_data();
+    		start_periodic_check();
     	});
 
     	const writable_props = [];
@@ -713,7 +742,8 @@ var app = (function () {
     		get_strings,
     		get_current_match,
     		get_current_match_info,
-    		get_match_data
+    		get_match_data,
+    		start_periodic_check
     	});
 
     	$$self.$inject_state = $$props => {

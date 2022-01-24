@@ -8,6 +8,10 @@
 		steam_id: "",
 		civs: [],
 		map_types: [],
+        periodic_check: {
+            timer: 0,
+            interval: 15 * 1000,
+        },
 	};
 
 	let current_match = {};
@@ -82,19 +86,34 @@
 	}
 
 	async function get_match_data() {
+		if (current_match_loading) return;
+		current_match_loading = true;
 		await get_current_match();
 		await get_current_match_info();
+		
+		console.log(settings.map_types);
+		console.log(current_match);
+		current_match_loading = false;
+	}
+
+	function start_periodic_check() {
+		if (settings.periodic_check.timer) {
+			return;
+		}
+
+		// Refresh data on interval.
+		settings.periodic_check.timer = setInterval(() => {
+			get_match_data();
+		}, settings.periodic_check.interval);
 	}
 
     onMount(async () => {
-		console.log("mount");
 		get_url_info();
 
 		await get_strings();
-		await get_match_data();
 		current_match_loading = false;
-		console.log(settings.map_types);
-		console.log(current_match);
+		await get_match_data();
+		start_periodic_check();
 	});
 
 </script>
