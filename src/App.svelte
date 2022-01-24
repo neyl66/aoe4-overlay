@@ -87,6 +87,7 @@
 	}
 
     onMount(async () => {
+		console.log("mount");
 		get_url_info();
 
 		await get_strings();
