@@ -53,7 +53,11 @@
 		const json = await response.json();
 		if (json.length < 1) return;
 
-		current_match = json[0];
+		const [new_match] = json;
+
+		if (Object.keys(current_match).length === 0 || new_match.match_id !== current_match?.match_id) {
+			current_match = new_match;
+		}
 	}
 
 	async function get_current_match_info() {
@@ -83,6 +87,8 @@
 
 		}
 
+		current_match.loaded = true;
+
 	}
 
 	async function get_match_data() {
@@ -91,7 +97,6 @@
 		await get_current_match();
 		await get_current_match_info();
 		
-		console.log(settings.map_types);
 		console.log(current_match);
 		current_match_loading = false;
 	}
@@ -107,6 +112,11 @@
 		}, settings.periodic_check.interval);
 	}
 
+	function stop_periodic_check() {
+		clearInterval(settings.periodic_check.timer);
+		settings.periodic_check.timer = 0;
+	}
+
     onMount(async () => {
 		get_url_info();
 
@@ -119,7 +129,7 @@
 </script>
 
 <main>
-	{#if !current_match_loading}
+	{#if current_match?.loaded}
 
 		{settings.map_types[current_match.map_type].string}
 		<br>
