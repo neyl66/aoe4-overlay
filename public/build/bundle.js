@@ -927,6 +927,80 @@ var app = (function () {
     	}
     }
 
+    const t = true;
+    const richTypes = { Date: t, RegExp: t, String: t, Number: t };
+    function diff(
+    	obj,
+    	newObj,
+    	options = { cyclesFix: true },
+    	_stack = []
+    ) {
+    	let diffs = [];
+    	const isObjArray = Array.isArray(obj);
+    	for (const key in obj) {
+    		const objKey = obj[key];
+    		const path = isObjArray ? +key : key;
+    		if (!(key in newObj)) {
+    			diffs.push({
+    				type: "REMOVE",
+    				path: [path],
+    				oldValue: obj[key],
+    			});
+    			continue;
+    		}
+    		const newObjKey = newObj[key];
+    		const areObjects =
+    			typeof objKey === "object" && typeof newObjKey === "object";
+    		if (
+    			objKey &&
+    			newObjKey &&
+    			areObjects &&
+    			!richTypes[Object.getPrototypeOf(objKey).constructor.name] &&
+    			(options.cyclesFix ? !_stack.includes(objKey) : true)
+    		) {
+    			const nestedDiffs = diff(
+    				objKey,
+    				newObjKey,
+    				options,
+    				options.cyclesFix ? _stack.concat([objKey]) : []
+    			);
+    			diffs.push.apply(
+    				diffs,
+    				nestedDiffs.map((difference) => {
+    					difference.path.unshift(path);
+    					return difference;
+    				})
+    			);
+    		} else if (
+    			objKey !== newObjKey &&
+    			!(
+    				areObjects &&
+    				(isNaN(objKey)
+    					? objKey + "" === newObjKey + ""
+    					: +objKey === +newObjKey)
+    			)
+    		) {
+    			diffs.push({
+    				path: [path],
+    				type: "CHANGE",
+    				value: newObjKey,
+    				oldValue: objKey,
+    			});
+    		}
+    	}
+    	const isNewObjArray = Array.isArray(newObj);
+    	for (const key in newObj) {
+    		if (!(key in obj)) {
+    			diffs.push({
+    				type: "CREATE",
+    				path: [isNewObjArray ? +key : key],
+    				value: newObj[key],
+    			});
+    		}
+    	}
+    	return diffs;
+    }
+
     const subscriber_queue = [];
     /**
      * Create a `Writable` store that allows both updating and reading by subscription.
@@ -1010,7 +1084,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (1:0) <script>      import {onMount}
+    // (1:0) <script>      import diff from "microdiff";      import {onMount}
     function create_catch_block(ctx) {
     	const block = { c: noop, m: noop, p: noop, d: noop };
 
@@ -1018,14 +1092,14 @@ var app = (function () {
     		block,
     		id: create_catch_block.name,
     		type: "catch",
-    		source: "(1:0) <script>      import {onMount}",
+    		source: "(1:0) <script>      import diff from \\\"microdiff\\\";      import {onMount}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:54)             <div class="match-info">              {awaited_current_match.map}
+    // (80:54)             <div class="match-info">              {awaited_current_match.map}
     function create_then_block(ctx) {
     	let div;
     	let t0_value = /*awaited_current_match*/ ctx[7].map + "";
@@ -1047,7 +1121,7 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div, "class", "match-info svelte-14qmpj6");
-    			add_location(div, file, 78, 8, 2207);
+    			add_location(div, file, 81, 8, 2307);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1087,14 +1161,14 @@ var app = (function () {
     		block,
     		id: create_then_block.name,
     		type: "then",
-    		source: "(77:54)             <div class=\\\"match-info\\\">              {awaited_current_match.map}",
+    		source: "(80:54)             <div class=\\\"match-info\\\">              {awaited_current_match.map}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (83:8) {#if awaited_current_match.teams}
+    // (86:8) {#if awaited_current_match.teams}
     function create_if_block$1(ctx) {
     	let div;
     	let each_value = /*awaited_current_match*/ ctx[7].teams;
@@ -1114,7 +1188,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "teams svelte-14qmpj6");
-    			add_location(div, file, 83, 12, 2388);
+    			add_location(div, file, 86, 12, 2488);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1158,14 +1232,14 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(83:8) {#if awaited_current_match.teams}",
+    		source: "(86:8) {#if awaited_current_match.teams}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (87:24) {#each team as player}
+    // (90:24) {#each team as player}
     function create_each_block_1(ctx) {
     	let div;
     	let img;
@@ -1213,9 +1287,9 @@ var app = (function () {
     			if (!src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[11].civilization}.jpg`)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].civilization);
     			attr_dev(img, "class", "svelte-14qmpj6");
-    			add_location(img, file, 88, 32, 2640);
+    			add_location(img, file, 91, 32, 2740);
     			attr_dev(div, "class", "player svelte-14qmpj6");
-    			add_location(div, file, 87, 28, 2586);
+    			add_location(div, file, 90, 28, 2686);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1259,14 +1333,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(87:24) {#each team as player}",
+    		source: "(90:24) {#each team as player}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (85:16) {#each awaited_current_match.teams as team}
+    // (88:16) {#each awaited_current_match.teams as team}
     function create_each_block(ctx) {
     	let div;
     	let t;
@@ -1288,7 +1362,7 @@ var app = (function () {
 
     			t = space();
     			attr_dev(div, "class", "team svelte-14qmpj6");
-    			add_location(div, file, 85, 20, 2490);
+    			add_location(div, file, 88, 20, 2590);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1334,14 +1408,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(85:16) {#each awaited_current_match.teams as team}",
+    		source: "(88:16) {#each awaited_current_match.teams as team}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (1:0) <script>      import {onMount}
+    // (1:0) <script>      import diff from "microdiff";      import {onMount}
     function create_pending_block(ctx) {
     	const block = { c: noop, m: noop, p: noop, d: noop };
 
@@ -1349,7 +1423,7 @@ var app = (function () {
     		block,
     		id: create_pending_block.name,
     		type: "pending",
-    		source: "(1:0) <script>      import {onMount}",
+    		source: "(1:0) <script>      import diff from \\\"microdiff\\\";      import {onMount}",
     		ctx
     	});
 
@@ -1377,7 +1451,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			info.block.c();
-    			add_location(main, file, 75, 0, 2133);
+    			add_location(main, file, 78, 0, 2233);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1447,19 +1521,17 @@ var app = (function () {
     		}
     	}
 
-    	function set_current_match() {
-    		set_store_value(
-    			current_match,
-    			$current_match = get_current_match().then(awaited_current_match => {
-    				set_store_value(current_match, $current_match = awaited_current_match, $current_match);
-    				console.log(awaited_current_match);
-    			}),
-    			$current_match
-    		);
+    	async function set_current_match() {
+    		const saved_current_match = $current_match;
+    		const awaited_current_match = await get_current_match();
+    		const changes = diff(saved_current_match, awaited_current_match);
+
+    		if (changes.length > 0) {
+    			set_store_value(current_match, $current_match = awaited_current_match, $current_match);
+    		}
     	}
 
     	async function get_current_match() {
-    		console.log(settings.steam_id);
     		const response = await fetch(match_url(settings.steam_id));
     		const json = await response.json();
     		return json;
@@ -1498,6 +1570,7 @@ var app = (function () {
     	});
 
     	$$self.$capture_state = () => ({
+    		diff,
     		onMount,
     		current_match,
     		match_url,

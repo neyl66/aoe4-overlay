@@ -1,4 +1,5 @@
 <script>
+    import diff from "microdiff";
     import {onMount} from "svelte";
 	import {current_match} from "./stores.js";
 
@@ -31,15 +32,17 @@
 		}
 	}
 
-    function set_current_match() {
-        $current_match = get_current_match().then((awaited_current_match) => {
+    async function set_current_match() {
+        const saved_current_match = $current_match;
+        const awaited_current_match = await get_current_match();
+
+        const changes = diff(saved_current_match, awaited_current_match);
+        if (changes.length > 0) {
             $current_match = awaited_current_match;
-            console.log(awaited_current_match);
-        });
+        }
     }
 
     async function get_current_match() {
-        console.log(settings.steam_id);
         const response = await fetch(match_url(settings.steam_id));
         const json = await response.json();
 
