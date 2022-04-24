@@ -4,6 +4,9 @@ var app = (function () {
     'use strict';
 
     function noop() { }
+    function is_promise(value) {
+        return value && typeof value === 'object' && typeof value.then === 'function';
+    }
     function add_location(element, file, line, column, char) {
         element.__svelte_meta = {
             loc: { file, line, column, char }
@@ -34,6 +37,25 @@ var app = (function () {
     }
     function is_empty(obj) {
         return Object.keys(obj).length === 0;
+    }
+    function validate_store(store, name) {
+        if (store != null && typeof store.subscribe !== 'function') {
+            throw new Error(`'${name}' is not a store with a 'subscribe' method`);
+        }
+    }
+    function subscribe(store, ...callbacks) {
+        if (store == null) {
+            return noop;
+        }
+        const unsub = store.subscribe(...callbacks);
+        return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
+    }
+    function component_subscribe(component, store, callback) {
+        component.$$.on_destroy.push(subscribe(store, callback));
+    }
+    function set_store_value(store, ret, value) {
+        store.set(value);
+        return ret;
     }
     function insert(target, node, anchor) {
         target.insertBefore(node, anchor || null);
@@ -169,11 +191,123 @@ var app = (function () {
         }
     }
     const outroing = new Set();
+    let outros;
+    function group_outros() {
+        outros = {
+            r: 0,
+            c: [],
+            p: outros // parent group
+        };
+    }
+    function check_outros() {
+        if (!outros.r) {
+            run_all(outros.c);
+        }
+        outros = outros.p;
+    }
     function transition_in(block, local) {
         if (block && block.i) {
             outroing.delete(block);
             block.i(local);
         }
+    }
+    function transition_out(block, local, detach, callback) {
+        if (block && block.o) {
+            if (outroing.has(block))
+                return;
+            outroing.add(block);
+            outros.c.push(() => {
+                outroing.delete(block);
+                if (callback) {
+                    if (detach)
+                        block.d(1);
+                    callback();
+                }
+            });
+            block.o(local);
+        }
+    }
+
+    function handle_promise(promise, info) {
+        const token = info.token = {};
+        function update(type, index, key, value) {
+            if (info.token !== token)
+                return;
+            info.resolved = value;
+            let child_ctx = info.ctx;
+            if (key !== undefined) {
+                child_ctx = child_ctx.slice();
+                child_ctx[key] = value;
+            }
+            const block = type && (info.current = type)(child_ctx);
+            let needs_flush = false;
+            if (info.block) {
+                if (info.blocks) {
+                    info.blocks.forEach((block, i) => {
+                        if (i !== index && block) {
+                            group_outros();
+                            transition_out(block, 1, 1, () => {
+                                if (info.blocks[i] === block) {
+                                    info.blocks[i] = null;
+                                }
+                            });
+                            check_outros();
+                        }
+                    });
+                }
+                else {
+                    info.block.d(1);
+                }
+                block.c();
+                transition_in(block, 1);
+                block.m(info.mount(), info.anchor);
+                needs_flush = true;
+            }
+            info.block = block;
+            if (info.blocks)
+                info.blocks[index] = block;
+            if (needs_flush) {
+                flush();
+            }
+        }
+        if (is_promise(promise)) {
+            const current_component = get_current_component();
+            promise.then(value => {
+                set_current_component(current_component);
+                update(info.then, 1, info.value, value);
+                set_current_component(null);
+            }, error => {
+                set_current_component(current_component);
+                update(info.catch, 2, info.error, error);
+                set_current_component(null);
+                if (!info.hasCatch) {
+                    throw error;
+                }
+            });
+            // if we previously had a then/catch block, destroy it
+            if (info.current !== info.pending) {
+                update(info.pending, 0);
+                return true;
+            }
+        }
+        else {
+            if (info.current !== info.then) {
+                update(info.then, 1, info.value, promise);
+                return true;
+            }
+            info.resolved = promise;
+        }
+    }
+    function update_await_block_branch(info, ctx, dirty) {
+        const child_ctx = ctx.slice();
+        const { resolved } = info;
+        if (info.current === info.then) {
+            child_ctx[info.value] = resolved;
+        }
+        if (info.current === info.catch) {
+            child_ctx[info.error] = resolved;
+        }
+        info.block.p(child_ctx, dirty);
     }
 
     const globals = (typeof window !== 'undefined'
@@ -181,6 +315,9 @@ var app = (function () {
         : typeof globalThis !== 'undefined'
             ? globalThis
             : global);
+    function create_component(block) {
+        block && block.c();
+    }
     function mount_component(component, target, anchor, customElement) {
         const { fragment, on_mount, on_destroy, after_update } = component.$$;
         fragment && fragment.m(target, anchor);
@@ -368,19 +505,19 @@ var app = (function () {
         $inject_state() { }
     }
 
-    /* src\App.svelte generated by Svelte v3.46.2 */
+    /* src\AOEIV.svelte generated by Svelte v3.46.2 */
 
-    const { Object: Object_1, console: console_1 } = globals;
-    const file = "src\\App.svelte";
+    const { Object: Object_1, console: console_1$1 } = globals;
+    const file$1 = "src\\AOEIV.svelte";
 
-    function get_each_context(ctx, list, i) {
+    function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[12] = list[i];
+    	child_ctx[11] = list[i];
     	return child_ctx;
     }
 
     // (132:1) {#if current_match?.loaded}
-    function create_if_block(ctx) {
+    function create_if_block$2(ctx) {
     	let t0_value = /*settings*/ ctx[0].map_types[/*current_match*/ ctx[1].map_type].string + "";
     	let t0;
     	let t1;
@@ -392,7 +529,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
     	}
 
     	const block = {
@@ -407,7 +544,7 @@ var app = (function () {
     			}
 
     			each_1_anchor = empty();
-    			add_location(br, file, 134, 2, 3312);
+    			add_location(br, file$1, 134, 2, 3450);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -430,12 +567,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
+    					const child_ctx = get_each_context$1(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i] = create_each_block$1(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
     					}
@@ -460,7 +597,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block.name,
+    		id: create_if_block$2.name,
     		type: "if",
     		source: "(132:1) {#if current_match?.loaded}",
     		ctx
@@ -470,23 +607,23 @@ var app = (function () {
     }
 
     // (137:2) {#each current_match.players as player}
-    function create_each_block(ctx) {
+    function create_each_block$1(ctx) {
     	let img;
     	let img_src_value;
     	let t0;
-    	let t1_value = /*player*/ ctx[12].name + "";
+    	let t1_value = /*player*/ ctx[11].name + "";
     	let t1;
     	let t2;
-    	let t3_value = /*player*/ ctx[12].rating + "";
+    	let t3_value = /*player*/ ctx[11].rating + "";
     	let t3;
     	let t4;
-    	let t5_value = /*player*/ ctx[12].my_winrate + "";
+    	let t5_value = /*player*/ ctx[11].my_winrate + "";
     	let t5;
     	let t6;
-    	let t7_value = /*player*/ ctx[12].my_wins + "";
+    	let t7_value = /*player*/ ctx[11].my_wins + "";
     	let t7;
     	let t8;
-    	let t9_value = /*player*/ ctx[12].my_losses + "";
+    	let t9_value = /*player*/ ctx[11].my_losses + "";
     	let t9;
     	let t10;
     	let br;
@@ -504,14 +641,14 @@ var app = (function () {
     			t7 = text(t7_value);
     			t8 = text("W | ");
     			t9 = text(t9_value);
-    			t10 = text("L\n\t\t\t");
+    			t10 = text("L\r\n\t\t\t");
     			br = element("br");
     			attr_dev(img, "width", "55");
     			attr_dev(img, "height", "31");
-    			if (!src_url_equal(img.src, img_src_value = `https://raw.githubusercontent.com/FluffyMaguro/AoE4_Overlay/main/src/img/flags/${/*settings*/ ctx[0].civs[/*player*/ ctx[12].civ].string}.webp`)) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = `https://raw.githubusercontent.com/FluffyMaguro/AoE4_Overlay/main/src/img/flags/${/*settings*/ ctx[0].civs[/*player*/ ctx[11].civ].string}.webp`)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			add_location(img, file, 137, 3, 3365);
-    			add_location(br, file, 139, 3, 3632);
+    			add_location(img, file$1, 137, 3, 3506);
+    			add_location(br, file$1, 139, 3, 3775);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -529,15 +666,15 @@ var app = (function () {
     			insert_dev(target, br, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*settings, current_match*/ 3 && !src_url_equal(img.src, img_src_value = `https://raw.githubusercontent.com/FluffyMaguro/AoE4_Overlay/main/src/img/flags/${/*settings*/ ctx[0].civs[/*player*/ ctx[12].civ].string}.webp`)) {
+    			if (dirty & /*settings, current_match*/ 3 && !src_url_equal(img.src, img_src_value = `https://raw.githubusercontent.com/FluffyMaguro/AoE4_Overlay/main/src/img/flags/${/*settings*/ ctx[0].civs[/*player*/ ctx[11].civ].string}.webp`)) {
     				attr_dev(img, "src", img_src_value);
     			}
 
-    			if (dirty & /*current_match*/ 2 && t1_value !== (t1_value = /*player*/ ctx[12].name + "")) set_data_dev(t1, t1_value);
-    			if (dirty & /*current_match*/ 2 && t3_value !== (t3_value = /*player*/ ctx[12].rating + "")) set_data_dev(t3, t3_value);
-    			if (dirty & /*current_match*/ 2 && t5_value !== (t5_value = /*player*/ ctx[12].my_winrate + "")) set_data_dev(t5, t5_value);
-    			if (dirty & /*current_match*/ 2 && t7_value !== (t7_value = /*player*/ ctx[12].my_wins + "")) set_data_dev(t7, t7_value);
-    			if (dirty & /*current_match*/ 2 && t9_value !== (t9_value = /*player*/ ctx[12].my_losses + "")) set_data_dev(t9, t9_value);
+    			if (dirty & /*current_match*/ 2 && t1_value !== (t1_value = /*player*/ ctx[11].name + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*current_match*/ 2 && t3_value !== (t3_value = /*player*/ ctx[11].rating + "")) set_data_dev(t3, t3_value);
+    			if (dirty & /*current_match*/ 2 && t5_value !== (t5_value = /*player*/ ctx[11].my_winrate + "")) set_data_dev(t5, t5_value);
+    			if (dirty & /*current_match*/ 2 && t7_value !== (t7_value = /*player*/ ctx[11].my_wins + "")) set_data_dev(t7, t7_value);
+    			if (dirty & /*current_match*/ 2 && t9_value !== (t9_value = /*player*/ ctx[11].my_losses + "")) set_data_dev(t9, t9_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(img);
@@ -558,7 +695,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block.name,
+    		id: create_each_block$1.name,
     		type: "each",
     		source: "(137:2) {#each current_match.players as player}",
     		ctx
@@ -567,15 +704,15 @@ var app = (function () {
     	return block;
     }
 
-    function create_fragment(ctx) {
+    function create_fragment$2(ctx) {
     	let main;
-    	let if_block = /*current_match*/ ctx[1]?.loaded && create_if_block(ctx);
+    	let if_block = /*current_match*/ ctx[1]?.loaded && create_if_block$2(ctx);
 
     	const block = {
     		c: function create() {
     			main = element("main");
     			if (if_block) if_block.c();
-    			add_location(main, file, 130, 0, 3219);
+    			add_location(main, file$1, 130, 0, 3353);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -589,7 +726,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block(ctx);
+    					if_block = create_if_block$2(ctx);
     					if_block.c();
     					if_block.m(main, null);
     				}
@@ -608,7 +745,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment.name,
+    		id: create_fragment$2.name,
     		type: "component",
     		source: "",
     		ctx
@@ -617,9 +754,9 @@ var app = (function () {
     	return block;
     }
 
-    function instance($$self, $$props, $$invalidate) {
+    function instance$2($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	validate_slots('App', slots, []);
+    	validate_slots('AOEIV', slots, []);
     	const matches_url = (steam_id, matches_count = 1000) => `https://aoeiv.net/api/player/matches?game=aoe4&steam_id=${steam_id}&count=${matches_count}`;
     	const rating_url = (profile_id, matches_count = 1000) => `https://aoeiv.net/api/player/ratinghistory?game=aoe4&leaderboard_id=17&profile_id=${profile_id}&count=${matches_count}`;
 
@@ -627,7 +764,7 @@ var app = (function () {
     		steam_id: "",
     		civs: [],
     		map_types: [],
-    		periodic_check: { timer: 0, interval: 15 * 1000 }
+    		periodic_check: { timer: 0, interval: 20 * 1000 }
     	};
 
     	let current_match = {};
@@ -722,10 +859,10 @@ var app = (function () {
     		);
     	}
 
-    	function stop_periodic_check() {
+    	window.stop_periodic_check = () => {
     		clearInterval(settings.periodic_check.timer);
     		$$invalidate(0, settings.periodic_check.timer = 0, settings);
-    	}
+    	};
 
     	onMount(async () => {
     		get_url_info();
@@ -738,7 +875,7 @@ var app = (function () {
     	const writable_props = [];
 
     	Object_1.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<App> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$1.warn(`<AOEIV> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$capture_state = () => ({
@@ -753,8 +890,7 @@ var app = (function () {
     		get_current_match,
     		get_current_match_info,
     		get_match_data,
-    		start_periodic_check,
-    		stop_periodic_check
+    		start_periodic_check
     	});
 
     	$$self.$inject_state = $$props => {
@@ -768,6 +904,763 @@ var app = (function () {
     	}
 
     	return [settings, current_match];
+    }
+
+    class AOEIV extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "AOEIV",
+    			options,
+    			id: create_fragment$2.name
+    		});
+    	}
+    }
+
+    const subscriber_queue = [];
+    /**
+     * Create a `Writable` store that allows both updating and reading by subscription.
+     * @param {*=}value initial value
+     * @param {StartStopNotifier=}start start and stop notifications for subscriptions
+     */
+    function writable(value, start = noop) {
+        let stop;
+        const subscribers = new Set();
+        function set(new_value) {
+            if (safe_not_equal(value, new_value)) {
+                value = new_value;
+                if (stop) { // store is ready
+                    const run_queue = !subscriber_queue.length;
+                    for (const subscriber of subscribers) {
+                        subscriber[1]();
+                        subscriber_queue.push(subscriber, value);
+                    }
+                    if (run_queue) {
+                        for (let i = 0; i < subscriber_queue.length; i += 2) {
+                            subscriber_queue[i][0](subscriber_queue[i + 1]);
+                        }
+                        subscriber_queue.length = 0;
+                    }
+                }
+            }
+        }
+        function update(fn) {
+            set(fn(value));
+        }
+        function subscribe(run, invalidate = noop) {
+            const subscriber = [run, invalidate];
+            subscribers.add(subscriber);
+            if (subscribers.size === 1) {
+                stop = start(set) || noop;
+            }
+            run(value);
+            return () => {
+                subscribers.delete(subscriber);
+                if (subscribers.size === 0) {
+                    stop();
+                    stop = null;
+                }
+            };
+        }
+        return { set, update, subscribe };
+    }
+
+    /*export const filters = writable({
+        all: false,
+        pickable_all: true,
+        value: "",
+    });
+
+    export const spells = writable([]);*/
+    const current_match = writable({});
+
+
+
+    // from: https://chasingcode.dev/blog/svelte-persist-state-to-localstorage/
+    /*const stored_theme = localStorage.getItem("theme") ?? "light";
+    export const theme = writable(stored_theme);
+    theme.subscribe(value => {
+        localStorage.setItem("theme", value);
+    });*/
+
+    /* src\AOE4WORLD.svelte generated by Svelte v3.46.2 */
+
+    const { console: console_1 } = globals;
+    const file = "src\\AOE4WORLD.svelte";
+
+    function get_each_context(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[8] = list[i];
+    	return child_ctx;
+    }
+
+    function get_each_context_1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[11] = list[i];
+    	return child_ctx;
+    }
+
+    // (1:0) <script>      import {onMount}
+    function create_catch_block(ctx) {
+    	const block = { c: noop, m: noop, p: noop, d: noop };
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_catch_block.name,
+    		type: "catch",
+    		source: "(1:0) <script>      import {onMount}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (78:54)       {awaited_current_match.map}
+    function create_then_block(ctx) {
+    	let t0_value = /*awaited_current_match*/ ctx[7].map + "";
+    	let t0;
+    	let t1;
+    	let t2_value = /*awaited_current_match*/ ctx[7].server + "";
+    	let t2;
+    	let t3;
+    	let br;
+    	let t4;
+    	let if_block_anchor;
+    	let if_block = /*awaited_current_match*/ ctx[7].teams && create_if_block$1(ctx);
+
+    	const block = {
+    		c: function create() {
+    			t0 = text(t0_value);
+    			t1 = text(" | Server: ");
+    			t2 = text(t2_value);
+    			t3 = space();
+    			br = element("br");
+    			t4 = space();
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    			add_location(br, file, 80, 2, 2328);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t2, anchor);
+    			insert_dev(target, t3, anchor);
+    			insert_dev(target, br, anchor);
+    			insert_dev(target, t4, anchor);
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*$current_match*/ 1 && t0_value !== (t0_value = /*awaited_current_match*/ ctx[7].map + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*$current_match*/ 1 && t2_value !== (t2_value = /*awaited_current_match*/ ctx[7].server + "")) set_data_dev(t2, t2_value);
+
+    			if (/*awaited_current_match*/ ctx[7].teams) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block$1(ctx);
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t2);
+    			if (detaching) detach_dev(t3);
+    			if (detaching) detach_dev(br);
+    			if (detaching) detach_dev(t4);
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_then_block.name,
+    		type: "then",
+    		source: "(78:54)       {awaited_current_match.map}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (83:8) {#if awaited_current_match.teams}
+    function create_if_block$1(ctx) {
+    	let each_1_anchor;
+    	let each_value = /*awaited_current_match*/ ctx[7].teams;
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*$current_match*/ 1) {
+    				each_value = /*awaited_current_match*/ ctx[7].teams;
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$1.name,
+    		type: "if",
+    		source: "(83:8) {#if awaited_current_match.teams}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (85:16) {#each team as player}
+    function create_each_block_1(ctx) {
+    	let t0_value = /*player*/ ctx[11].civilization + "";
+    	let t0;
+    	let t1;
+    	let t2_value = /*player*/ ctx[11].name + "";
+    	let t2;
+    	let t3;
+    	let t4_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rating + "";
+    	let t4;
+    	let t5;
+    	let t6_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "";
+    	let t6;
+    	let t7;
+    	let t8_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "";
+    	let t8;
+    	let t9;
+    	let t10_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "";
+    	let t10;
+    	let t11;
+    	let br;
+
+    	const block = {
+    		c: function create() {
+    			t0 = text(t0_value);
+    			t1 = text(" | \r\n                    ");
+    			t2 = text(t2_value);
+    			t3 = text(" | ");
+    			t4 = text(t4_value);
+    			t5 = text(" rating | ");
+    			t6 = text(t6_value);
+    			t7 = text("% winrate | ");
+    			t8 = text(t8_value);
+    			t9 = text("W | ");
+    			t10 = text(t10_value);
+    			t11 = text("L\r\n                    ");
+    			br = element("br");
+    			add_location(br, file, 88, 20, 3007);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t2, anchor);
+    			insert_dev(target, t3, anchor);
+    			insert_dev(target, t4, anchor);
+    			insert_dev(target, t5, anchor);
+    			insert_dev(target, t6, anchor);
+    			insert_dev(target, t7, anchor);
+    			insert_dev(target, t8, anchor);
+    			insert_dev(target, t9, anchor);
+    			insert_dev(target, t10, anchor);
+    			insert_dev(target, t11, anchor);
+    			insert_dev(target, br, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*$current_match*/ 1 && t0_value !== (t0_value = /*player*/ ctx[11].civilization + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*$current_match*/ 1 && t2_value !== (t2_value = /*player*/ ctx[11].name + "")) set_data_dev(t2, t2_value);
+    			if (dirty & /*$current_match*/ 1 && t4_value !== (t4_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rating + "")) set_data_dev(t4, t4_value);
+    			if (dirty & /*$current_match*/ 1 && t6_value !== (t6_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "")) set_data_dev(t6, t6_value);
+    			if (dirty & /*$current_match*/ 1 && t8_value !== (t8_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "")) set_data_dev(t8, t8_value);
+    			if (dirty & /*$current_match*/ 1 && t10_value !== (t10_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "")) set_data_dev(t10, t10_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t2);
+    			if (detaching) detach_dev(t3);
+    			if (detaching) detach_dev(t4);
+    			if (detaching) detach_dev(t5);
+    			if (detaching) detach_dev(t6);
+    			if (detaching) detach_dev(t7);
+    			if (detaching) detach_dev(t8);
+    			if (detaching) detach_dev(t9);
+    			if (detaching) detach_dev(t10);
+    			if (detaching) detach_dev(t11);
+    			if (detaching) detach_dev(br);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_1.name,
+    		type: "each",
+    		source: "(85:16) {#each team as player}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (84:12) {#each awaited_current_match.teams as team}
+    function create_each_block(ctx) {
+    	let each_1_anchor;
+    	let each_value_1 = /*team*/ ctx[8];
+    	validate_each_argument(each_value_1);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*$current_match*/ 1) {
+    				each_value_1 = /*team*/ ctx[8];
+    				validate_each_argument(each_value_1);
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_1.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block.name,
+    		type: "each",
+    		source: "(84:12) {#each awaited_current_match.teams as team}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (1:0) <script>      import {onMount}
+    function create_pending_block(ctx) {
+    	const block = { c: noop, m: noop, p: noop, d: noop };
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_pending_block.name,
+    		type: "pending",
+    		source: "(1:0) <script>      import {onMount}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$1(ctx) {
+    	let main;
+    	let promise;
+
+    	let info = {
+    		ctx,
+    		current: null,
+    		token: null,
+    		hasCatch: false,
+    		pending: create_pending_block,
+    		then: create_then_block,
+    		catch: create_catch_block,
+    		value: 7
+    	};
+
+    	handle_promise(promise = /*$current_match*/ ctx[0], info);
+
+    	const block = {
+    		c: function create() {
+    			main = element("main");
+    			info.block.c();
+    			add_location(main, file, 76, 0, 2188);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, main, anchor);
+    			info.block.m(main, info.anchor = null);
+    			info.mount = () => main;
+    			info.anchor = null;
+    		},
+    		p: function update(new_ctx, [dirty]) {
+    			ctx = new_ctx;
+    			info.ctx = ctx;
+
+    			if (dirty & /*$current_match*/ 1 && promise !== (promise = /*$current_match*/ ctx[0]) && handle_promise(promise, info)) ; else {
+    				update_await_block_branch(info, ctx, dirty);
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(main);
+    			info.block.d();
+    			info.token = null;
+    			info = null;
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$1.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$1($$self, $$props, $$invalidate) {
+    	let $current_match;
+    	validate_store(current_match, 'current_match');
+    	component_subscribe($$self, current_match, $$value => $$invalidate(0, $current_match = $$value));
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('AOE4WORLD', slots, []);
+    	const match_url = profile_id => `https://aoe4world.com/api/v0/players/${profile_id}/games/last`;
+
+    	let settings = {
+    		steam_id: "",
+    		civs: [],
+    		map_types: [],
+    		periodic_check: { timer: 0, interval: 20 * 1000 }
+    	};
+
+    	function get_url_info() {
+    		const current_url = new URL(location.href);
+    		const search_params = new URLSearchParams(current_url.search);
+
+    		// Available url parameters to override settings.
+    		const params = ["steam_id"];
+
+    		// Apply found url params to settings.
+    		for (let param of params) {
+    			if (search_params.has(param)) {
+    				settings[param] = search_params.get(param);
+    			}
+    		}
+    	}
+
+    	function set_current_match() {
+    		set_store_value(
+    			current_match,
+    			$current_match = get_current_match().then(awaited_current_match => {
+    				set_store_value(current_match, $current_match = awaited_current_match, $current_match);
+    				console.log(awaited_current_match);
+    				console.log(awaited_current_match.teams);
+    			}),
+    			$current_match
+    		);
+    	}
+
+    	async function get_current_match() {
+    		console.log(settings.steam_id);
+    		const response = await fetch(match_url(settings.steam_id));
+    		const json = await response.json();
+    		return json;
+    	}
+
+    	function start_periodic_check() {
+    		if (settings.periodic_check.timer) {
+    			return;
+    		}
+
+    		// Refresh data on interval.
+    		settings.periodic_check.timer = setInterval(
+    			() => {
+    				set_current_match();
+    			},
+    			settings.periodic_check.interval
+    		);
+    	}
+
+    	window.stop_periodic_check = () => {
+    		clearInterval(settings.periodic_check.timer);
+    		settings.periodic_check.timer = 0;
+    	};
+
+    	onMount(async () => {
+    		get_url_info();
+    		set_current_match();
+    		start_periodic_check();
+    	});
+
+    	console.log($current_match);
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<AOE4WORLD> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$capture_state = () => ({
+    		onMount,
+    		current_match,
+    		match_url,
+    		settings,
+    		get_url_info,
+    		set_current_match,
+    		get_current_match,
+    		start_periodic_check,
+    		$current_match
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('settings' in $$props) settings = $$props.settings;
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [$current_match];
+    }
+
+    class AOE4WORLD extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "AOE4WORLD",
+    			options,
+    			id: create_fragment$1.name
+    		});
+    	}
+    }
+
+    /* src\App.svelte generated by Svelte v3.46.2 */
+
+    // (10:0) {:else}
+    function create_else_block(ctx) {
+    	let aoe4world;
+    	let current;
+    	aoe4world = new AOE4WORLD({ $$inline: true });
+
+    	const block = {
+    		c: function create() {
+    			create_component(aoe4world.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(aoe4world, target, anchor);
+    			current = true;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(aoe4world.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(aoe4world.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(aoe4world, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block.name,
+    		type: "else",
+    		source: "(10:0) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (8:0) {#if component_to_render === "AOEIV"}
+    function create_if_block(ctx) {
+    	let aoeiv;
+    	let current;
+    	aoeiv = new AOEIV({ $$inline: true });
+
+    	const block = {
+    		c: function create() {
+    			create_component(aoeiv.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(aoeiv, target, anchor);
+    			current = true;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(aoeiv.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(aoeiv.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(aoeiv, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(8:0) {#if component_to_render === \\\"AOEIV\\\"}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment(ctx) {
+    	let current_block_type_index;
+    	let if_block;
+    	let if_block_anchor;
+    	let current;
+    	const if_block_creators = [create_if_block, create_else_block];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type();
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+
+    	const block = {
+    		c: function create() {
+    			if_block.c();
+    			if_block_anchor = empty();
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			if_blocks[current_block_type_index].m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    			current = true;
+    		},
+    		p: noop,
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if_blocks[current_block_type_index].d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    const component_to_render = "AOE4WORLD";
+
+    function instance($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('App', slots, []);
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$capture_state = () => ({ AOEIV, AOE4WORLD, component_to_render });
+    	return [];
     }
 
     class App extends SvelteComponentDev {
