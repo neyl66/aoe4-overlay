@@ -77,25 +77,45 @@
 <main>
     {#await $current_match then awaited_current_match}
 
-		{awaited_current_match.map} | Server: {awaited_current_match.server}
-		<br>
+        <div class="match-info">
+            {awaited_current_match.map} | Server: {awaited_current_match.server}
+        </div>
 
         {#if awaited_current_match.teams}
-            {#each awaited_current_match.teams as team}
-                {#each team as player}
-                    <!--<img width="55" height="31" src={`https://raw.githubusercontent.com/FluffyMaguro/AoE4_Overlay/main/src/img/flags/${settings.civs[player.civ].string}.webp`} alt="">-->
-                    {player.civilization} | 
-                    {player.name} | {player.modes[awaited_current_match.kind].rating} rating | {player.modes[awaited_current_match.kind].win_rate}% winrate | {player.modes[awaited_current_match.kind].wins_count}W | {player.modes[awaited_current_match.kind].losses_count}L
-                    <br>
+            <div class="teams">
+                {#each awaited_current_match.teams as team}
+                    <div class="team">
+                        {#each team as player}
+                            <div class="player">
+                                <img width="55" height="31" src={`/images/flags/small/${player.civilization}.jpg`} alt={player.civilization}>
+                                {player.name} | {player.modes[awaited_current_match.kind].rating} rating | {player.modes[awaited_current_match.kind].win_rate}% winrate | {player.modes[awaited_current_match.kind].wins_count}W | {player.modes[awaited_current_match.kind].losses_count}L
+                                <br>
+                            </div>
+                        {/each}
+                    </div>
                 {/each}
-            {/each}
+            </div>
         {/if}
 
 	{/await}
 </main>
 
 <style>
-	.civs {
+    .match-info {
+        margin-bottom: 10px;
+    }
+
+	.teams {
 
 	}
+    .team {
+        margin-bottom: 5px;
+    }
+    .player {
+        display: flex;
+        align-items: center;
+    }
+    .player img {
+        margin-right: 10px;
+    }
 </style>
