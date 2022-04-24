@@ -1025,7 +1025,7 @@ var app = (function () {
     	return block;
     }
 
-    // (78:54)             <div class="match-info">              {awaited_current_match.map}
+    // (77:54)             <div class="match-info">              {awaited_current_match.map}
     function create_then_block(ctx) {
     	let div;
     	let t0_value = /*awaited_current_match*/ ctx[7].map + "";
@@ -1047,7 +1047,7 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div, "class", "match-info svelte-14qmpj6");
-    			add_location(div, file, 79, 8, 2262);
+    			add_location(div, file, 78, 8, 2207);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1087,14 +1087,14 @@ var app = (function () {
     		block,
     		id: create_then_block.name,
     		type: "then",
-    		source: "(78:54)             <div class=\\\"match-info\\\">              {awaited_current_match.map}",
+    		source: "(77:54)             <div class=\\\"match-info\\\">              {awaited_current_match.map}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (84:8) {#if awaited_current_match.teams}
+    // (83:8) {#if awaited_current_match.teams}
     function create_if_block$1(ctx) {
     	let div;
     	let each_value = /*awaited_current_match*/ ctx[7].teams;
@@ -1114,7 +1114,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "teams svelte-14qmpj6");
-    			add_location(div, file, 84, 12, 2443);
+    			add_location(div, file, 83, 12, 2388);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1158,14 +1158,14 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(84:8) {#if awaited_current_match.teams}",
+    		source: "(83:8) {#if awaited_current_match.teams}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (88:24) {#each team as player}
+    // (87:24) {#each team as player}
     function create_each_block_1(ctx) {
     	let div;
     	let img;
@@ -1178,16 +1178,18 @@ var app = (function () {
     	let t3_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rating + "";
     	let t3;
     	let t4;
-    	let t5_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "";
+    	let t5_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level + "";
     	let t5;
     	let t6;
-    	let t7_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "";
+    	let t7_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "";
     	let t7;
     	let t8;
-    	let t9_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "";
+    	let t9_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "";
     	let t9;
     	let t10;
-    	let br;
+    	let t11_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "";
+    	let t11;
+    	let t12;
 
     	const block = {
     		c: function create() {
@@ -1197,23 +1199,23 @@ var app = (function () {
     			t1 = text(t1_value);
     			t2 = text(" | ");
     			t3 = text(t3_value);
-    			t4 = text(" rating | ");
+    			t4 = text(" rating (");
     			t5 = text(t5_value);
-    			t6 = text("% winrate | ");
+    			t6 = text(") | ");
     			t7 = text(t7_value);
-    			t8 = text("W | ");
+    			t8 = text("% winrate | ");
     			t9 = text(t9_value);
-    			t10 = text("L\r\n                                ");
-    			br = element("br");
+    			t10 = text("W | ");
+    			t11 = text(t11_value);
+    			t12 = text("L");
     			attr_dev(img, "width", "55");
     			attr_dev(img, "height", "31");
     			if (!src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[11].civilization}.jpg`)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].civilization);
     			attr_dev(img, "class", "svelte-14qmpj6");
-    			add_location(img, file, 89, 32, 2695);
-    			add_location(br, file, 91, 32, 3123);
+    			add_location(img, file, 88, 32, 2640);
     			attr_dev(div, "class", "player svelte-14qmpj6");
-    			add_location(div, file, 88, 28, 2641);
+    			add_location(div, file, 87, 28, 2586);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1229,7 +1231,8 @@ var app = (function () {
     			append_dev(div, t8);
     			append_dev(div, t9);
     			append_dev(div, t10);
-    			append_dev(div, br);
+    			append_dev(div, t11);
+    			append_dev(div, t12);
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*$current_match*/ 1 && !src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[11].civilization}.jpg`)) {
@@ -1242,9 +1245,10 @@ var app = (function () {
 
     			if (dirty & /*$current_match*/ 1 && t1_value !== (t1_value = /*player*/ ctx[11].name + "")) set_data_dev(t1, t1_value);
     			if (dirty & /*$current_match*/ 1 && t3_value !== (t3_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rating + "")) set_data_dev(t3, t3_value);
-    			if (dirty & /*$current_match*/ 1 && t5_value !== (t5_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "")) set_data_dev(t5, t5_value);
-    			if (dirty & /*$current_match*/ 1 && t7_value !== (t7_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "")) set_data_dev(t7, t7_value);
-    			if (dirty & /*$current_match*/ 1 && t9_value !== (t9_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "")) set_data_dev(t9, t9_value);
+    			if (dirty & /*$current_match*/ 1 && t5_value !== (t5_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level + "")) set_data_dev(t5, t5_value);
+    			if (dirty & /*$current_match*/ 1 && t7_value !== (t7_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "")) set_data_dev(t7, t7_value);
+    			if (dirty & /*$current_match*/ 1 && t9_value !== (t9_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "")) set_data_dev(t9, t9_value);
+    			if (dirty & /*$current_match*/ 1 && t11_value !== (t11_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "")) set_data_dev(t11, t11_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -1255,14 +1259,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(88:24) {#each team as player}",
+    		source: "(87:24) {#each team as player}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (86:16) {#each awaited_current_match.teams as team}
+    // (85:16) {#each awaited_current_match.teams as team}
     function create_each_block(ctx) {
     	let div;
     	let t;
@@ -1284,7 +1288,7 @@ var app = (function () {
 
     			t = space();
     			attr_dev(div, "class", "team svelte-14qmpj6");
-    			add_location(div, file, 86, 20, 2545);
+    			add_location(div, file, 85, 20, 2490);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1330,7 +1334,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(86:16) {#each awaited_current_match.teams as team}",
+    		source: "(85:16) {#each awaited_current_match.teams as team}",
     		ctx
     	});
 
@@ -1373,7 +1377,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			info.block.c();
-    			add_location(main, file, 76, 0, 2188);
+    			add_location(main, file, 75, 0, 2133);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1449,7 +1453,6 @@ var app = (function () {
     			$current_match = get_current_match().then(awaited_current_match => {
     				set_store_value(current_match, $current_match = awaited_current_match, $current_match);
     				console.log(awaited_current_match);
-    				console.log(awaited_current_match.teams);
     			}),
     			$current_match
     		);

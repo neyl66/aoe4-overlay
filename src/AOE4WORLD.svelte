@@ -35,7 +35,6 @@
         $current_match = get_current_match().then((awaited_current_match) => {
             $current_match = awaited_current_match;
             console.log(awaited_current_match);
-            console.log(awaited_current_match.teams);
         });
     }
 
@@ -88,8 +87,7 @@
                         {#each team as player}
                             <div class="player">
                                 <img width="55" height="31" src={`/images/flags/small/${player.civilization}.jpg`} alt={player.civilization}>
-                                {player.name} | {player.modes[awaited_current_match.kind].rating} rating | {player.modes[awaited_current_match.kind].win_rate}% winrate | {player.modes[awaited_current_match.kind].wins_count}W | {player.modes[awaited_current_match.kind].losses_count}L
-                                <br>
+                                {player.name} | {player.modes[awaited_current_match.kind].rating} rating ({player.modes[awaited_current_match.kind].rank_level}) | {player.modes[awaited_current_match.kind].win_rate}% winrate | {player.modes[awaited_current_match.kind].wins_count}W | {player.modes[awaited_current_match.kind].losses_count}L
                             </div>
                         {/each}
                     </div>
