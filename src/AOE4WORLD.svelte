@@ -129,7 +129,7 @@
 
 <style>
     .overlay {
-        font-size: 20px;
+        font-size: 22px;
         text-shadow: black 0px 0px 2px;
     }
 
