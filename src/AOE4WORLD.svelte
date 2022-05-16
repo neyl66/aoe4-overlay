@@ -91,7 +91,7 @@
     {#await $current_match then awaited_current_match}
 
         <div class="match-info">
-            {awaited_current_match.map} | Server: {awaited_current_match.server}
+            Map: {awaited_current_match.map} | Server: {awaited_current_match.server}
         </div>
 
         {#if awaited_current_match.teams}
@@ -107,15 +107,16 @@
                                 {player.modes[awaited_current_match.kind].rating} rating 
                                 {#if player.modes[awaited_current_match.kind].rank_level}
                                     <img src={`/images/ranks/${player.modes[awaited_current_match.kind].rank_level}.png`} class="rank-icon" width="27" height="31" alt={player.modes[awaited_current_match.kind].rank_level}>
-                                    ({convert_to_roman(player.modes[awaited_current_match.kind].rank_level)})
+                                    {convert_to_roman(player.modes[awaited_current_match.kind].rank_level)}
                                 {/if}
 
                                 |
                                 {player.modes[awaited_current_match.kind].win_rate}% winrate
                                 |
-                                {player.modes[awaited_current_match.kind].wins_count}W
-                                |
-                                {player.modes[awaited_current_match.kind].losses_count}L
+
+                                <span class="win">{player.modes[awaited_current_match.kind].wins_count}W</span>
+                                &nbsp;
+                                <span class="loss">{player.modes[awaited_current_match.kind].losses_count}L</span>
                             </div>
                         {/each}
                     </div>
@@ -129,6 +130,7 @@
 <style>
     .overlay {
         font-size: 20px;
+        text-shadow: black 0px 0px 2px;
     }
 
     .match-info {
@@ -136,7 +138,7 @@
     }
 
     .team {
-        margin-bottom: 5px;
+        margin-bottom: 8px;
     }
 
     .player {
@@ -151,5 +153,14 @@
     .rank-icon {
         margin-left: 5px;
         margin-right: 5px;
+    }
+
+    .win {
+        color: rgb(34 197 94);
+        margin-left: 5px;
+    }
+
+    .loss {
+        color: rgb(239 68 68);
     }
 </style>

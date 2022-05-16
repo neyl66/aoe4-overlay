@@ -1097,28 +1097,30 @@ var app = (function () {
     	return block;
     }
 
-    // (91:54)             <div class="match-info">              {awaited_current_match.map}
+    // (91:54)             <div class="match-info">              Map: {awaited_current_match.map}
     function create_then_block(ctx) {
     	let div;
-    	let t0_value = /*awaited_current_match*/ ctx[7].map + "";
     	let t0;
+    	let t1_value = /*awaited_current_match*/ ctx[7].map + "";
     	let t1;
-    	let t2_value = /*awaited_current_match*/ ctx[7].server + "";
     	let t2;
+    	let t3_value = /*awaited_current_match*/ ctx[7].server + "";
     	let t3;
+    	let t4;
     	let if_block_anchor;
     	let if_block = /*awaited_current_match*/ ctx[7].teams && create_if_block$1(ctx);
 
     	const block = {
     		c: function create() {
     			div = element("div");
-    			t0 = text(t0_value);
-    			t1 = text(" | Server: ");
-    			t2 = text(t2_value);
-    			t3 = space();
+    			t0 = text("Map: ");
+    			t1 = text(t1_value);
+    			t2 = text(" | Server: ");
+    			t3 = text(t3_value);
+    			t4 = space();
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
-    			attr_dev(div, "class", "match-info svelte-1rmvjnu");
+    			attr_dev(div, "class", "match-info svelte-gaxcer");
     			add_location(div, file, 92, 8, 2718);
     		},
     		m: function mount(target, anchor) {
@@ -1126,13 +1128,14 @@ var app = (function () {
     			append_dev(div, t0);
     			append_dev(div, t1);
     			append_dev(div, t2);
-    			insert_dev(target, t3, anchor);
+    			append_dev(div, t3);
+    			insert_dev(target, t4, anchor);
     			if (if_block) if_block.m(target, anchor);
     			insert_dev(target, if_block_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$current_match*/ 1 && t0_value !== (t0_value = /*awaited_current_match*/ ctx[7].map + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*$current_match*/ 1 && t2_value !== (t2_value = /*awaited_current_match*/ ctx[7].server + "")) set_data_dev(t2, t2_value);
+    			if (dirty & /*$current_match*/ 1 && t1_value !== (t1_value = /*awaited_current_match*/ ctx[7].map + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*$current_match*/ 1 && t3_value !== (t3_value = /*awaited_current_match*/ ctx[7].server + "")) set_data_dev(t3, t3_value);
 
     			if (/*awaited_current_match*/ ctx[7].teams) {
     				if (if_block) {
@@ -1149,7 +1152,7 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
-    			if (detaching) detach_dev(t3);
+    			if (detaching) detach_dev(t4);
     			if (if_block) if_block.d(detaching);
     			if (detaching) detach_dev(if_block_anchor);
     		}
@@ -1159,7 +1162,7 @@ var app = (function () {
     		block,
     		id: create_then_block.name,
     		type: "then",
-    		source: "(91:54)             <div class=\\\"match-info\\\">              {awaited_current_match.map}",
+    		source: "(91:54)             <div class=\\\"match-info\\\">              Map: {awaited_current_match.map}",
     		ctx
     	});
 
@@ -1186,7 +1189,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "teams");
-    			add_location(div, file, 97, 12, 2899);
+    			add_location(div, file, 97, 12, 2904);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1245,26 +1248,23 @@ var app = (function () {
     	let t0;
     	let t1_value = convert_to_roman(/*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level) + "";
     	let t1;
-    	let t2;
 
     	const block = {
     		c: function create() {
     			img = element("img");
-    			t0 = text("\r\n                                    (");
+    			t0 = space();
     			t1 = text(t1_value);
-    			t2 = text(")");
     			if (!src_url_equal(img.src, img_src_value = `/images/ranks/${/*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level}.png`)) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "class", "rank-icon svelte-1rmvjnu");
+    			attr_dev(img, "class", "rank-icon svelte-gaxcer");
     			attr_dev(img, "width", "27");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level);
-    			add_location(img, file, 108, 36, 3581);
+    			add_location(img, file, 108, 36, 3586);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
     			insert_dev(target, t0, anchor);
     			insert_dev(target, t1, anchor);
-    			insert_dev(target, t2, anchor);
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*$current_match*/ 1 && !src_url_equal(img.src, img_src_value = `/images/ranks/${/*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level}.png`)) {
@@ -1281,7 +1281,6 @@ var app = (function () {
     			if (detaching) detach_dev(img);
     			if (detaching) detach_dev(t0);
     			if (detaching) detach_dev(t1);
-    			if (detaching) detach_dev(t2);
     		}
     	};
 
@@ -1313,12 +1312,15 @@ var app = (function () {
     	let t6_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "";
     	let t6;
     	let t7;
+    	let span0;
     	let t8_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "";
     	let t8;
     	let t9;
-    	let t10_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "";
     	let t10;
+    	let span1;
+    	let t11_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "";
     	let t11;
+    	let t12;
     	let if_block = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level && create_if_block_1(ctx);
 
     	const block = {
@@ -1333,19 +1335,26 @@ var app = (function () {
     			if (if_block) if_block.c();
     			t5 = text("\r\n\r\n                                |\r\n                                ");
     			t6 = text(t6_value);
-    			t7 = text("% winrate\r\n                                |\r\n                                ");
+    			t7 = text("% winrate\r\n                                |\r\n\r\n                                ");
+    			span0 = element("span");
     			t8 = text(t8_value);
-    			t9 = text("W\r\n                                |\r\n                                ");
-    			t10 = text(t10_value);
-    			t11 = text("L");
+    			t9 = text("W");
+    			t10 = text("\r\n                                 \r\n                                ");
+    			span1 = element("span");
+    			t11 = text(t11_value);
+    			t12 = text("L");
     			if (!src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[11].civilization}.jpg`)) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "class", "civ-flag svelte-1rmvjnu");
+    			attr_dev(img, "class", "civ-flag svelte-gaxcer");
     			attr_dev(img, "width", "55");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].civilization);
-    			add_location(img, file, 102, 32, 3151);
-    			attr_dev(div, "class", "player svelte-1rmvjnu");
-    			add_location(div, file, 101, 28, 3097);
+    			add_location(img, file, 102, 32, 3156);
+    			attr_dev(span0, "class", "win svelte-gaxcer");
+    			add_location(span0, file, 116, 32, 4121);
+    			attr_dev(span1, "class", "loss svelte-gaxcer");
+    			add_location(span1, file, 118, 32, 4274);
+    			attr_dev(div, "class", "player svelte-gaxcer");
+    			add_location(div, file, 101, 28, 3102);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1359,10 +1368,13 @@ var app = (function () {
     			append_dev(div, t5);
     			append_dev(div, t6);
     			append_dev(div, t7);
-    			append_dev(div, t8);
-    			append_dev(div, t9);
+    			append_dev(div, span0);
+    			append_dev(span0, t8);
+    			append_dev(span0, t9);
     			append_dev(div, t10);
-    			append_dev(div, t11);
+    			append_dev(div, span1);
+    			append_dev(span1, t11);
+    			append_dev(span1, t12);
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*$current_match*/ 1 && !src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[11].civilization}.jpg`)) {
@@ -1391,7 +1403,7 @@ var app = (function () {
 
     			if (dirty & /*$current_match*/ 1 && t6_value !== (t6_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "")) set_data_dev(t6, t6_value);
     			if (dirty & /*$current_match*/ 1 && t8_value !== (t8_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "")) set_data_dev(t8, t8_value);
-    			if (dirty & /*$current_match*/ 1 && t10_value !== (t10_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "")) set_data_dev(t10, t10_value);
+    			if (dirty & /*$current_match*/ 1 && t11_value !== (t11_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "")) set_data_dev(t11, t11_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -1431,8 +1443,8 @@ var app = (function () {
     			}
 
     			t = space();
-    			attr_dev(div, "class", "team svelte-1rmvjnu");
-    			add_location(div, file, 99, 20, 3001);
+    			attr_dev(div, "class", "team svelte-gaxcer");
+    			add_location(div, file, 99, 20, 3006);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1521,7 +1533,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			info.block.c();
-    			attr_dev(main, "class", "overlay svelte-1rmvjnu");
+    			attr_dev(main, "class", "overlay svelte-gaxcer");
     			add_location(main, file, 89, 0, 2628);
     		},
     		l: function claim(nodes) {
