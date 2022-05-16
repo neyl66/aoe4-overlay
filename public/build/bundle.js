@@ -1263,7 +1263,46 @@ var app = (function () {
     	return block;
     }
 
-    // (121:32) {#if player.modes[awaited_current_match.kind].rank_level}
+    // (120:32) {#if player.modes[awaited_current_match.kind].rank}
+    function create_if_block_2(ctx) {
+    	let t0;
+    	let t1_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank + "";
+    	let t1;
+    	let t2;
+
+    	const block = {
+    		c: function create() {
+    			t0 = text("(#");
+    			t1 = text(t1_value);
+    			t2 = text(")");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t2, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*$current_match*/ 1 && t1_value !== (t1_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank + "")) set_data_dev(t1, t1_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t2);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2.name,
+    		type: "if",
+    		source: "(120:32) {#if player.modes[awaited_current_match.kind].rank}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (124:32) {#if player.modes[awaited_current_match.kind].rank_level}
     function create_if_block_1$1(ctx) {
     	let img;
     	let img_src_value;
@@ -1282,7 +1321,7 @@ var app = (function () {
     			attr_dev(img, "width", "27");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level);
-    			add_location(img, file$1, 121, 36, 3952);
+    			add_location(img, file$1, 124, 36, 4082);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -1311,7 +1350,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(121:32) {#if player.modes[awaited_current_match.kind].rank_level}",
+    		source: "(124:32) {#if player.modes[awaited_current_match.kind].rank_level}",
     		ctx
     	});
 
@@ -1333,26 +1372,25 @@ var app = (function () {
     	let t3;
     	let t4;
     	let t5;
-    	let t6_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank + "";
     	let t6;
     	let t7;
+    	let t8_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].win_rate + "";
     	let t8;
-    	let t9_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].win_rate + "";
     	let t9;
-    	let t10;
     	let svg;
     	let path;
-    	let t11;
+    	let t10;
     	let span1;
-    	let t12_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].wins_count + "";
+    	let t11_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].wins_count + "";
+    	let t11;
     	let t12;
     	let t13;
-    	let t14;
     	let span2;
-    	let t15_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].losses_count + "";
+    	let t14_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].losses_count + "";
+    	let t14;
     	let t15;
-    	let t16;
-    	let if_block = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level && create_if_block_1$1(ctx);
+    	let if_block0 = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank && create_if_block_2(ctx);
+    	let if_block1 = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level && create_if_block_1$1(ctx);
 
     	const block = {
     		c: function create() {
@@ -1364,23 +1402,23 @@ var app = (function () {
     			span0 = element("span");
     			t3 = text(t3_value);
     			t4 = text(" rating");
-    			t5 = text("\r\n\r\n                                (#");
-    			t6 = text(t6_value);
-    			t7 = text(")\r\n                                ");
-    			if (if_block) if_block.c();
-    			t8 = text("\r\n\r\n                                |\r\n                                ");
-    			t9 = text(t9_value);
-    			t10 = text("%\r\n                                ");
+    			t5 = space();
+    			if (if_block0) if_block0.c();
+    			t6 = space();
+    			if (if_block1) if_block1.c();
+    			t7 = text("\r\n\r\n                                |\r\n                                ");
+    			t8 = text(t8_value);
+    			t9 = text("%\r\n                                ");
     			svg = svg_element("svg");
     			path = svg_element("path");
-    			t11 = text("\r\n                                |\r\n\r\n                                ");
+    			t10 = text("\r\n                                |\r\n\r\n                                ");
     			span1 = element("span");
-    			t12 = text(t12_value);
-    			t13 = text("W");
-    			t14 = text("\r\n                                 \r\n                                ");
+    			t11 = text(t11_value);
+    			t12 = text("W");
+    			t13 = text("\r\n                                 \r\n                                ");
     			span2 = element("span");
-    			t15 = text(t15_value);
-    			t16 = text("L");
+    			t14 = text(t14_value);
+    			t15 = text("L");
     			if (!src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[13].civilization}.jpg`)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "class", "civ-flag svelte-1ha94mz");
     			attr_dev(img, "width", "55");
@@ -1391,17 +1429,17 @@ var app = (function () {
     			add_location(span0, file$1, 117, 32, 3652);
     			attr_dev(path, "fill", "#fff");
     			attr_dev(path, "d", "M5 0c0 9.803 5.105 12.053 5.604 16h2.805c.497-3.947 5.591-6.197 5.591-16h-14zm7.006 14.62c-.408-.998-.969-1.959-1.548-2.953-1.422-2.438-3.011-5.162-3.379-9.667h9.842c-.368 4.506-1.953 7.23-3.372 9.669-.577.993-1.136 1.954-1.543 2.951zm-.006-3.073c-1.125-2.563-1.849-5.599-1.857-8.547h-1.383c.374 3.118 1.857 7.023 3.24 8.547zm12-9.547c-.372 4.105-2.808 8.091-6.873 9.438.297-.552.596-1.145.882-1.783 2.915-1.521 4.037-4.25 4.464-6.251h-2.688c.059-.45.103-.922.139-1.405h4.076zm-24 0c.372 4.105 2.808 8.091 6.873 9.438-.297-.552-.596-1.145-.882-1.783-2.915-1.521-4.037-4.25-4.464-6.251h2.688c-.058-.449-.102-.922-.138-1.404h-4.077zm13.438 15h-2.866c-.202 1.187-1.63 2.619-3.571 2.619v4.381h10v-4.381c-1.999 0-3.371-1.432-3.563-2.619zm2.562 6h-8v-2h8v2z");
-    			add_location(path, file$1, 127, 136, 4546);
+    			add_location(path, file$1, 130, 136, 4676);
     			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg, "width", "21");
     			attr_dev(svg, "height", "21");
     			attr_dev(svg, "viewBox", "0 0 24 24");
     			attr_dev(svg, "class", "winrate-icon svelte-1ha94mz");
-    			add_location(svg, file$1, 127, 32, 4442);
+    			add_location(svg, file$1, 130, 32, 4572);
     			attr_dev(span1, "class", "win svelte-1ha94mz");
-    			add_location(span1, file$1, 130, 32, 5404);
+    			add_location(span1, file$1, 133, 32, 5534);
     			attr_dev(span2, "class", "loss svelte-1ha94mz");
-    			add_location(span2, file$1, 132, 32, 5557);
+    			add_location(span2, file$1, 135, 32, 5687);
     			attr_dev(div, "class", "player svelte-1ha94mz");
     			add_location(div, file$1, 112, 28, 3354);
     		},
@@ -1415,22 +1453,22 @@ var app = (function () {
     			append_dev(span0, t3);
     			append_dev(span0, t4);
     			append_dev(div, t5);
+    			if (if_block0) if_block0.m(div, null);
     			append_dev(div, t6);
+    			if (if_block1) if_block1.m(div, null);
     			append_dev(div, t7);
-    			if (if_block) if_block.m(div, null);
     			append_dev(div, t8);
     			append_dev(div, t9);
-    			append_dev(div, t10);
     			append_dev(div, svg);
     			append_dev(svg, path);
-    			append_dev(div, t11);
+    			append_dev(div, t10);
     			append_dev(div, span1);
+    			append_dev(span1, t11);
     			append_dev(span1, t12);
-    			append_dev(span1, t13);
-    			append_dev(div, t14);
+    			append_dev(div, t13);
     			append_dev(div, span2);
+    			append_dev(span2, t14);
     			append_dev(span2, t15);
-    			append_dev(span2, t16);
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*$current_match*/ 1 && !src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[13].civilization}.jpg`)) {
@@ -1443,28 +1481,41 @@ var app = (function () {
 
     			if (dirty & /*$current_match*/ 1 && t1_value !== (t1_value = /*player*/ ctx[13].name + "")) set_data_dev(t1, t1_value);
     			if (dirty & /*$current_match*/ 1 && t3_value !== (t3_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rating + "")) set_data_dev(t3, t3_value);
-    			if (dirty & /*$current_match*/ 1 && t6_value !== (t6_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank + "")) set_data_dev(t6, t6_value);
 
-    			if (/*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
+    			if (/*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block_1$1(ctx);
-    					if_block.c();
-    					if_block.m(div, t8);
+    					if_block0 = create_if_block_2(ctx);
+    					if_block0.c();
+    					if_block0.m(div, t6);
     				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
     			}
 
-    			if (dirty & /*$current_match*/ 1 && t9_value !== (t9_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].win_rate + "")) set_data_dev(t9, t9_value);
-    			if (dirty & /*$current_match*/ 1 && t12_value !== (t12_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].wins_count + "")) set_data_dev(t12, t12_value);
-    			if (dirty & /*$current_match*/ 1 && t15_value !== (t15_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].losses_count + "")) set_data_dev(t15, t15_value);
+    			if (/*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level) {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+    				} else {
+    					if_block1 = create_if_block_1$1(ctx);
+    					if_block1.c();
+    					if_block1.m(div, t7);
+    				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
+    			}
+
+    			if (dirty & /*$current_match*/ 1 && t8_value !== (t8_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].win_rate + "")) set_data_dev(t8, t8_value);
+    			if (dirty & /*$current_match*/ 1 && t11_value !== (t11_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].wins_count + "")) set_data_dev(t11, t11_value);
+    			if (dirty & /*$current_match*/ 1 && t14_value !== (t14_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].losses_count + "")) set_data_dev(t14, t14_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
-    			if (if_block) if_block.d();
+    			if (if_block0) if_block0.d();
+    			if (if_block1) if_block1.d();
     		}
     	};
 

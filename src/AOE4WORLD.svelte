@@ -117,7 +117,10 @@
 
                                 <span class="rating">{player.modes[awaited_current_match.kind].rating} rating </span>
 
-                                (#{player.modes[awaited_current_match.kind].rank})
+                                {#if player.modes[awaited_current_match.kind].rank}
+                                    (#{player.modes[awaited_current_match.kind].rank})
+                                {/if}
+
                                 {#if player.modes[awaited_current_match.kind].rank_level}
                                     <img src={`/images/ranks/${player.modes[awaited_current_match.kind].rank_level}.png`} class="rank-icon" width="27" height="31" alt={player.modes[awaited_current_match.kind].rank_level}>
                                     {convert_to_roman(player.modes[awaited_current_match.kind].rank_level)}
