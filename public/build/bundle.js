@@ -1120,7 +1120,7 @@ var app = (function () {
     	return block;
     }
 
-    // (102:54)             <div class="match-info">              Map: {awaited_current_match.map}
+    // (112:54)             <div class="match-info">              Map: {awaited_current_match.map}
     function create_then_block(ctx) {
     	let div;
     	let t0;
@@ -1144,7 +1144,7 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div, "class", "match-info svelte-1ha94mz");
-    			add_location(div, file$1, 103, 8, 2970);
+    			add_location(div, file$1, 113, 8, 3369);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1185,14 +1185,14 @@ var app = (function () {
     		block,
     		id: create_then_block.name,
     		type: "then",
-    		source: "(102:54)             <div class=\\\"match-info\\\">              Map: {awaited_current_match.map}",
+    		source: "(112:54)             <div class=\\\"match-info\\\">              Map: {awaited_current_match.map}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (108:8) {#if awaited_current_match.teams}
+    // (118:8) {#if awaited_current_match.teams}
     function create_if_block$2(ctx) {
     	let div;
     	let each_value = /*awaited_current_match*/ ctx[9].teams;
@@ -1212,7 +1212,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "teams");
-    			add_location(div, file$1, 108, 12, 3156);
+    			add_location(div, file$1, 118, 12, 3555);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1256,14 +1256,14 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(108:8) {#if awaited_current_match.teams}",
+    		source: "(118:8) {#if awaited_current_match.teams}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (120:32) {#if player.modes[awaited_current_match.kind].rank}
+    // (130:32) {#if player.modes[awaited_current_match.kind].rank}
     function create_if_block_2(ctx) {
     	let t0;
     	let t1_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank + "";
@@ -1295,14 +1295,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(120:32) {#if player.modes[awaited_current_match.kind].rank}",
+    		source: "(130:32) {#if player.modes[awaited_current_match.kind].rank}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (124:32) {#if player.modes[awaited_current_match.kind].rank_level}
+    // (134:32) {#if player.modes[awaited_current_match.kind].rank_level}
     function create_if_block_1$1(ctx) {
     	let img;
     	let img_src_value;
@@ -1321,7 +1321,7 @@ var app = (function () {
     			attr_dev(img, "width", "27");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level);
-    			add_location(img, file$1, 124, 36, 4082);
+    			add_location(img, file$1, 134, 36, 4481);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -1350,14 +1350,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(124:32) {#if player.modes[awaited_current_match.kind].rank_level}",
+    		source: "(134:32) {#if player.modes[awaited_current_match.kind].rank_level}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (112:24) {#each team as player}
+    // (122:24) {#each team as player}
     function create_each_block_1(ctx) {
     	let div;
     	let img;
@@ -1424,24 +1424,24 @@ var app = (function () {
     			attr_dev(img, "width", "55");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[13].civilization);
-    			add_location(img, file$1, 113, 32, 3408);
+    			add_location(img, file$1, 123, 32, 3807);
     			attr_dev(span0, "class", "rating svelte-1ha94mz");
-    			add_location(span0, file$1, 117, 32, 3652);
+    			add_location(span0, file$1, 127, 32, 4051);
     			attr_dev(path, "fill", "#fff");
     			attr_dev(path, "d", "M5 0c0 9.803 5.105 12.053 5.604 16h2.805c.497-3.947 5.591-6.197 5.591-16h-14zm7.006 14.62c-.408-.998-.969-1.959-1.548-2.953-1.422-2.438-3.011-5.162-3.379-9.667h9.842c-.368 4.506-1.953 7.23-3.372 9.669-.577.993-1.136 1.954-1.543 2.951zm-.006-3.073c-1.125-2.563-1.849-5.599-1.857-8.547h-1.383c.374 3.118 1.857 7.023 3.24 8.547zm12-9.547c-.372 4.105-2.808 8.091-6.873 9.438.297-.552.596-1.145.882-1.783 2.915-1.521 4.037-4.25 4.464-6.251h-2.688c.059-.45.103-.922.139-1.405h4.076zm-24 0c.372 4.105 2.808 8.091 6.873 9.438-.297-.552-.596-1.145-.882-1.783-2.915-1.521-4.037-4.25-4.464-6.251h2.688c-.058-.449-.102-.922-.138-1.404h-4.077zm13.438 15h-2.866c-.202 1.187-1.63 2.619-3.571 2.619v4.381h10v-4.381c-1.999 0-3.371-1.432-3.563-2.619zm2.562 6h-8v-2h8v2z");
-    			add_location(path, file$1, 130, 136, 4676);
+    			add_location(path, file$1, 140, 136, 5075);
     			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
-    			attr_dev(svg, "width", "21");
-    			attr_dev(svg, "height", "21");
+    			attr_dev(svg, "width", "25");
+    			attr_dev(svg, "height", "25");
     			attr_dev(svg, "viewBox", "0 0 24 24");
     			attr_dev(svg, "class", "winrate-icon svelte-1ha94mz");
-    			add_location(svg, file$1, 130, 32, 4572);
+    			add_location(svg, file$1, 140, 32, 4971);
     			attr_dev(span1, "class", "win svelte-1ha94mz");
-    			add_location(span1, file$1, 133, 32, 5534);
+    			add_location(span1, file$1, 143, 32, 5933);
     			attr_dev(span2, "class", "loss svelte-1ha94mz");
-    			add_location(span2, file$1, 135, 32, 5687);
+    			add_location(span2, file$1, 145, 32, 6086);
     			attr_dev(div, "class", "player svelte-1ha94mz");
-    			add_location(div, file$1, 112, 28, 3354);
+    			add_location(div, file$1, 122, 28, 3753);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1523,14 +1523,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(112:24) {#each team as player}",
+    		source: "(122:24) {#each team as player}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (110:16) {#each awaited_current_match.teams as team}
+    // (120:16) {#each awaited_current_match.teams as team}
     function create_each_block$1(ctx) {
     	let div;
     	let t;
@@ -1552,7 +1552,7 @@ var app = (function () {
 
     			t = space();
     			attr_dev(div, "class", "team svelte-1ha94mz");
-    			add_location(div, file$1, 110, 20, 3258);
+    			add_location(div, file$1, 120, 20, 3657);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1598,7 +1598,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(110:16) {#each awaited_current_match.teams as team}",
+    		source: "(120:16) {#each awaited_current_match.teams as team}",
     		ctx
     	});
 
@@ -1642,7 +1642,7 @@ var app = (function () {
     			main = element("main");
     			info.block.c();
     			attr_dev(main, "class", "overlay svelte-1ha94mz");
-    			add_location(main, file$1, 100, 0, 2880);
+    			add_location(main, file$1, 110, 0, 3279);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1734,6 +1734,18 @@ var app = (function () {
 
     		if (changes.length > 0) {
     			set_store_value(current_match, $current_match = awaited_current_match, $current_match);
+
+    			if ($current_match.teams[0][0].profile_id != settings.profile_id) {
+    				let teams = $current_match.teams;
+
+    				teams.sort((a, b) => {
+    					if (a[0].profile_id == settings.profile_id) {
+    						return -1;
+    					} else {
+    						return 1;
+    					}
+    				});
+    			}
     		}
     	}
 
