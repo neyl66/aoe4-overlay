@@ -1119,7 +1119,7 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div, "class", "match-info svelte-1rmvjnu");
-    			add_location(div, file, 92, 8, 2726);
+    			add_location(div, file, 92, 8, 2718);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1186,7 +1186,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "teams");
-    			add_location(div, file, 97, 12, 2907);
+    			add_location(div, file, 97, 12, 2899);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1258,7 +1258,7 @@ var app = (function () {
     			attr_dev(img, "width", "27");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level);
-    			add_location(img, file, 108, 36, 3589);
+    			add_location(img, file, 108, 36, 3581);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -1343,9 +1343,9 @@ var app = (function () {
     			attr_dev(img, "width", "55");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].civilization);
-    			add_location(img, file, 102, 32, 3159);
+    			add_location(img, file, 102, 32, 3151);
     			attr_dev(div, "class", "player svelte-1rmvjnu");
-    			add_location(div, file, 101, 28, 3105);
+    			add_location(div, file, 101, 28, 3097);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1432,7 +1432,7 @@ var app = (function () {
 
     			t = space();
     			attr_dev(div, "class", "team svelte-1rmvjnu");
-    			add_location(div, file, 99, 20, 3009);
+    			add_location(div, file, 99, 20, 3001);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1522,7 +1522,7 @@ var app = (function () {
     			main = element("main");
     			info.block.c();
     			attr_dev(main, "class", "overlay svelte-1rmvjnu");
-    			add_location(main, file, 89, 0, 2636);
+    			add_location(main, file, 89, 0, 2628);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1565,7 +1565,7 @@ var app = (function () {
     function convert_to_roman(text) {
     	const [new_text, number] = text.split("_");
     	const roman_number = get_roman_number(number);
-    	return `${new_text}_${roman_number}`;
+    	return `${new_text} ${roman_number}`;
     }
 
     function get_roman_number(number) {

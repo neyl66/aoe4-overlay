@@ -68,8 +68,8 @@
     function convert_to_roman(text) {
         const [new_text, number] = text.split("_");
         const roman_number = get_roman_number(number);
-        
-        return `${new_text}_${roman_number}`;
+
+        return `${new_text} ${roman_number}`;
     }
 
     function get_roman_number(number) {
