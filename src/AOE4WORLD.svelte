@@ -152,6 +152,7 @@
 
     .rating {
         color: rgb(175 148 78);
+        color: #D2AF26;
         margin-left: 5px;
     }
 

@@ -1120,7 +1120,7 @@ var app = (function () {
     			t4 = space();
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
-    			attr_dev(div, "class", "match-info svelte-1j6bb7r");
+    			attr_dev(div, "class", "match-info svelte-c1s991");
     			add_location(div, file, 92, 8, 2718);
     		},
     		m: function mount(target, anchor) {
@@ -1255,7 +1255,7 @@ var app = (function () {
     			t0 = space();
     			t1 = text(t1_value);
     			if (!src_url_equal(img.src, img_src_value = `/images/ranks/${/*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level}.png`)) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "class", "rank-icon svelte-1j6bb7r");
+    			attr_dev(img, "class", "rank-icon svelte-c1s991");
     			attr_dev(img, "width", "27");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level);
@@ -1348,18 +1348,18 @@ var app = (function () {
     			t12 = text(t12_value);
     			t13 = text("L");
     			if (!src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[11].civilization}.jpg`)) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "class", "civ-flag svelte-1j6bb7r");
+    			attr_dev(img, "class", "civ-flag svelte-c1s991");
     			attr_dev(img, "width", "55");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].civilization);
     			add_location(img, file, 102, 32, 3156);
-    			attr_dev(span0, "class", "rating svelte-1j6bb7r");
+    			attr_dev(span0, "class", "rating svelte-c1s991");
     			add_location(span0, file, 106, 32, 3400);
-    			attr_dev(span1, "class", "win svelte-1j6bb7r");
+    			attr_dev(span1, "class", "win svelte-c1s991");
     			add_location(span1, file, 116, 32, 4149);
-    			attr_dev(span2, "class", "loss svelte-1j6bb7r");
+    			attr_dev(span2, "class", "loss svelte-c1s991");
     			add_location(span2, file, 118, 32, 4302);
-    			attr_dev(div, "class", "player svelte-1j6bb7r");
+    			attr_dev(div, "class", "player svelte-c1s991");
     			add_location(div, file, 101, 28, 3102);
     		},
     		m: function mount(target, anchor) {
@@ -1451,7 +1451,7 @@ var app = (function () {
     			}
 
     			t = space();
-    			attr_dev(div, "class", "team svelte-1j6bb7r");
+    			attr_dev(div, "class", "team svelte-c1s991");
     			add_location(div, file, 99, 20, 3006);
     		},
     		m: function mount(target, anchor) {
@@ -1541,7 +1541,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			info.block.c();
-    			attr_dev(main, "class", "overlay svelte-1j6bb7r");
+    			attr_dev(main, "class", "overlay svelte-c1s991");
     			add_location(main, file, 89, 0, 2628);
     		},
     		l: function claim(nodes) {
