@@ -3,12 +3,14 @@
     import {onMount} from "svelte";
 	import {current_match} from "./stores.js";
 
-	//const matches_url = (steam_id, matches_count = 1000) => `https://aoeiv.net/api/player/matches?game=aoe4&steam_id=${steam_id}&count=${matches_count}`;
-	//const rating_url = (profile_id, matches_count = 1000) => `https://aoeiv.net/api/player/ratinghistory?game=aoe4&leaderboard_id=17&profile_id=${profile_id}&count=${matches_count}`;
+    const player_url = (profile_id) => `https://aoe4world.com/api/v0/players/${profile_id}`;
     const match_url = (profile_id) => `https://aoe4world.com/api/v0/players/${profile_id}/games/last`;
+    const steam_url = (steam_id) => `https://steamcommunity.com/profiles/${steam_id}?xml=1`;
+    
 
 	let settings = {
 		steam_id: "",
+        profile_id: "",
 		civs: [],
 		map_types: [],
         periodic_check: {
@@ -22,7 +24,7 @@
 		const search_params = new URLSearchParams(current_url.search);
 
 		// Available url parameters to override settings.
-		const params = ["steam_id"];
+		const params = ["steam_id", "profile_id"];
 
 		// Apply found url params to settings.
 		for (let param of params) {
@@ -43,7 +45,7 @@
     }
 
     async function get_current_match() {
-        const response = await fetch(match_url(settings.steam_id));
+        const response = await fetch(match_url(settings.profile_id));
         const json = await response.json();
 
         return json;
@@ -81,6 +83,15 @@
     onMount(async () => {
 		get_url_info();
 
+        if (!settings.steam_id && !settings.profile_id) return;
+
+        // Use steam id to get profile id from user profile.
+        if (!settings.profile_id) {
+            const response = await fetch(player_url(settings.steam_id));
+            const json = await response.json();
+            settings.profile_id = json.profile_id;
+        }
+
         set_current_match();
 		start_periodic_check();
 	});
@@ -113,7 +124,8 @@
                                 {/if}
 
                                 |
-                                {player.modes[awaited_current_match.kind].win_rate}% winrate
+                                {player.modes[awaited_current_match.kind].win_rate}%
+                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24" class="winrate-icon"><path fill="#fff" d="M5 0c0 9.803 5.105 12.053 5.604 16h2.805c.497-3.947 5.591-6.197 5.591-16h-14zm7.006 14.62c-.408-.998-.969-1.959-1.548-2.953-1.422-2.438-3.011-5.162-3.379-9.667h9.842c-.368 4.506-1.953 7.23-3.372 9.669-.577.993-1.136 1.954-1.543 2.951zm-.006-3.073c-1.125-2.563-1.849-5.599-1.857-8.547h-1.383c.374 3.118 1.857 7.023 3.24 8.547zm12-9.547c-.372 4.105-2.808 8.091-6.873 9.438.297-.552.596-1.145.882-1.783 2.915-1.521 4.037-4.25 4.464-6.251h-2.688c.059-.45.103-.922.139-1.405h4.076zm-24 0c.372 4.105 2.808 8.091 6.873 9.438-.297-.552-.596-1.145-.882-1.783-2.915-1.521-4.037-4.25-4.464-6.251h2.688c-.058-.449-.102-.922-.138-1.404h-4.077zm13.438 15h-2.866c-.202 1.187-1.63 2.619-3.571 2.619v4.381h10v-4.381c-1.999 0-3.371-1.432-3.563-2.619zm2.562 6h-8v-2h8v2z"></path></svg>
                                 |
 
                                 <span class="win">{player.modes[awaited_current_match.kind].wins_count}W</span>
@@ -161,6 +173,11 @@
     }
 
     .rank-icon {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .winrate-icon {
         margin-left: 5px;
         margin-right: 5px;
     }
