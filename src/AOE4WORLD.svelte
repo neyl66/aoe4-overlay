@@ -146,6 +146,7 @@
     .player {
         display: flex;
         align-items: center;
+        white-space: nowrap;
     }
 
     .civ-flag {
