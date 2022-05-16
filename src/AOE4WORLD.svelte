@@ -65,6 +65,19 @@
 		settings.periodic_check.timer = 0;
 	}
 
+    function convert_to_roman(text) {
+        const [new_text, number] = text.split("_");
+        const roman_number = get_roman_number(number);
+        
+        return `${new_text}_${roman_number}`;
+    }
+
+    function get_roman_number(number) {
+        if (number < 1) return "";
+        if (number >= 4) return "IV" + get_roman_number(number - 4);
+        if (number >= 1) return "I" + get_roman_number(number - 1);
+    }
+
     onMount(async () => {
 		get_url_info();
 
@@ -72,11 +85,9 @@
 		start_periodic_check();
 	});
 
-    console.log($current_match);
-
 </script>
 
-<main>
+<main class="overlay">
     {#await $current_match then awaited_current_match}
 
         <div class="match-info">
@@ -89,8 +100,22 @@
                     <div class="team">
                         {#each team as player}
                             <div class="player">
-                                <img width="55" height="31" src={`/images/flags/small/${player.civilization}.jpg`} alt={player.civilization}>
-                                {player.name} | {player.modes[awaited_current_match.kind].rating} rating ({player.modes[awaited_current_match.kind].rank_level}) | {player.modes[awaited_current_match.kind].win_rate}% winrate | {player.modes[awaited_current_match.kind].wins_count}W | {player.modes[awaited_current_match.kind].losses_count}L
+                                <img src={`/images/flags/small/${player.civilization}.jpg`} class="civ-flag" width="55" height="31" alt={player.civilization}>
+                                {player.name}
+                                |
+
+                                {player.modes[awaited_current_match.kind].rating} rating 
+                                {#if player.modes[awaited_current_match.kind].rank_level}
+                                    <img src={`/images/ranks/${player.modes[awaited_current_match.kind].rank_level}.png`} class="rank-icon" width="27" height="31" alt={player.modes[awaited_current_match.kind].rank_level}>
+                                    ({convert_to_roman(player.modes[awaited_current_match.kind].rank_level)})
+                                {/if}
+
+                                |
+                                {player.modes[awaited_current_match.kind].win_rate}% winrate
+                                |
+                                {player.modes[awaited_current_match.kind].wins_count}W
+                                |
+                                {player.modes[awaited_current_match.kind].losses_count}L
                             </div>
                         {/each}
                     </div>
@@ -102,21 +127,29 @@
 </main>
 
 <style>
+    .overlay {
+        font-size: 20px;
+    }
+
     .match-info {
         margin-bottom: 10px;
     }
 
-	.teams {
-
-	}
     .team {
         margin-bottom: 5px;
     }
+
     .player {
         display: flex;
         align-items: center;
     }
-    .player img {
+
+    .civ-flag {
         margin-right: 10px;
+    }
+
+    .rank-icon {
+        margin-left: 5px;
+        margin-right: 5px;
     }
 </style>
