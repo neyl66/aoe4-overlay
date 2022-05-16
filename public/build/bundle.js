@@ -1120,7 +1120,7 @@ var app = (function () {
     			t4 = space();
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
-    			attr_dev(div, "class", "match-info svelte-1rjcxs5");
+    			attr_dev(div, "class", "match-info svelte-1j6bb7r");
     			add_location(div, file, 92, 8, 2718);
     		},
     		m: function mount(target, anchor) {
@@ -1255,11 +1255,11 @@ var app = (function () {
     			t0 = space();
     			t1 = text(t1_value);
     			if (!src_url_equal(img.src, img_src_value = `/images/ranks/${/*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level}.png`)) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "class", "rank-icon svelte-1rjcxs5");
+    			attr_dev(img, "class", "rank-icon svelte-1j6bb7r");
     			attr_dev(img, "width", "27");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level);
-    			add_location(img, file, 108, 36, 3586);
+    			add_location(img, file, 108, 36, 3614);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -1305,22 +1305,24 @@ var app = (function () {
     	let t1_value = /*player*/ ctx[11].name + "";
     	let t1;
     	let t2;
+    	let span0;
     	let t3_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rating + "";
     	let t3;
     	let t4;
     	let t5;
-    	let t6_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "";
     	let t6;
+    	let t7_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "";
     	let t7;
-    	let span0;
-    	let t8_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "";
     	let t8;
+    	let span1;
+    	let t9_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "";
     	let t9;
     	let t10;
-    	let span1;
-    	let t11_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "";
     	let t11;
+    	let span2;
+    	let t12_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "";
     	let t12;
+    	let t13;
     	let if_block = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].rank_level && create_if_block_1(ctx);
 
     	const block = {
@@ -1330,30 +1332,34 @@ var app = (function () {
     			t0 = space();
     			t1 = text(t1_value);
     			t2 = text("\r\n                                |\r\n\r\n                                ");
-    			t3 = text(t3_value);
-    			t4 = text(" rating \r\n                                ");
-    			if (if_block) if_block.c();
-    			t5 = text("\r\n\r\n                                |\r\n                                ");
-    			t6 = text(t6_value);
-    			t7 = text("% winrate\r\n                                |\r\n\r\n                                ");
     			span0 = element("span");
-    			t8 = text(t8_value);
-    			t9 = text("W");
-    			t10 = text("\r\n                                 \r\n                                ");
+    			t3 = text(t3_value);
+    			t4 = text(" rating");
+    			t5 = space();
+    			if (if_block) if_block.c();
+    			t6 = text("\r\n\r\n                                |\r\n                                ");
+    			t7 = text(t7_value);
+    			t8 = text("% winrate\r\n                                |\r\n\r\n                                ");
     			span1 = element("span");
-    			t11 = text(t11_value);
-    			t12 = text("L");
+    			t9 = text(t9_value);
+    			t10 = text("W");
+    			t11 = text("\r\n                                 \r\n                                ");
+    			span2 = element("span");
+    			t12 = text(t12_value);
+    			t13 = text("L");
     			if (!src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[11].civilization}.jpg`)) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "class", "civ-flag svelte-1rjcxs5");
+    			attr_dev(img, "class", "civ-flag svelte-1j6bb7r");
     			attr_dev(img, "width", "55");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[11].civilization);
     			add_location(img, file, 102, 32, 3156);
-    			attr_dev(span0, "class", "win svelte-1rjcxs5");
-    			add_location(span0, file, 116, 32, 4121);
-    			attr_dev(span1, "class", "loss svelte-1rjcxs5");
-    			add_location(span1, file, 118, 32, 4274);
-    			attr_dev(div, "class", "player svelte-1rjcxs5");
+    			attr_dev(span0, "class", "rating svelte-1j6bb7r");
+    			add_location(span0, file, 106, 32, 3400);
+    			attr_dev(span1, "class", "win svelte-1j6bb7r");
+    			add_location(span1, file, 116, 32, 4149);
+    			attr_dev(span2, "class", "loss svelte-1j6bb7r");
+    			add_location(span2, file, 118, 32, 4302);
+    			attr_dev(div, "class", "player svelte-1j6bb7r");
     			add_location(div, file, 101, 28, 3102);
     		},
     		m: function mount(target, anchor) {
@@ -1362,19 +1368,21 @@ var app = (function () {
     			append_dev(div, t0);
     			append_dev(div, t1);
     			append_dev(div, t2);
-    			append_dev(div, t3);
-    			append_dev(div, t4);
-    			if (if_block) if_block.m(div, null);
+    			append_dev(div, span0);
+    			append_dev(span0, t3);
+    			append_dev(span0, t4);
     			append_dev(div, t5);
+    			if (if_block) if_block.m(div, null);
     			append_dev(div, t6);
     			append_dev(div, t7);
-    			append_dev(div, span0);
-    			append_dev(span0, t8);
-    			append_dev(span0, t9);
-    			append_dev(div, t10);
+    			append_dev(div, t8);
     			append_dev(div, span1);
-    			append_dev(span1, t11);
-    			append_dev(span1, t12);
+    			append_dev(span1, t9);
+    			append_dev(span1, t10);
+    			append_dev(div, t11);
+    			append_dev(div, span2);
+    			append_dev(span2, t12);
+    			append_dev(span2, t13);
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*$current_match*/ 1 && !src_url_equal(img.src, img_src_value = `/images/flags/small/${/*player*/ ctx[11].civilization}.jpg`)) {
@@ -1394,16 +1402,16 @@ var app = (function () {
     				} else {
     					if_block = create_if_block_1(ctx);
     					if_block.c();
-    					if_block.m(div, t5);
+    					if_block.m(div, t6);
     				}
     			} else if (if_block) {
     				if_block.d(1);
     				if_block = null;
     			}
 
-    			if (dirty & /*$current_match*/ 1 && t6_value !== (t6_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "")) set_data_dev(t6, t6_value);
-    			if (dirty & /*$current_match*/ 1 && t8_value !== (t8_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "")) set_data_dev(t8, t8_value);
-    			if (dirty & /*$current_match*/ 1 && t11_value !== (t11_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "")) set_data_dev(t11, t11_value);
+    			if (dirty & /*$current_match*/ 1 && t7_value !== (t7_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].win_rate + "")) set_data_dev(t7, t7_value);
+    			if (dirty & /*$current_match*/ 1 && t9_value !== (t9_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].wins_count + "")) set_data_dev(t9, t9_value);
+    			if (dirty & /*$current_match*/ 1 && t12_value !== (t12_value = /*player*/ ctx[11].modes[/*awaited_current_match*/ ctx[7].kind].losses_count + "")) set_data_dev(t12, t12_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -1443,7 +1451,7 @@ var app = (function () {
     			}
 
     			t = space();
-    			attr_dev(div, "class", "team svelte-1rjcxs5");
+    			attr_dev(div, "class", "team svelte-1j6bb7r");
     			add_location(div, file, 99, 20, 3006);
     		},
     		m: function mount(target, anchor) {
@@ -1533,7 +1541,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			info.block.c();
-    			attr_dev(main, "class", "overlay svelte-1rjcxs5");
+    			attr_dev(main, "class", "overlay svelte-1j6bb7r");
     			add_location(main, file, 89, 0, 2628);
     		},
     		l: function claim(nodes) {
