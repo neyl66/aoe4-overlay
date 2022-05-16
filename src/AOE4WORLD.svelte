@@ -105,6 +105,8 @@
                                 |
 
                                 <span class="rating">{player.modes[awaited_current_match.kind].rating} rating </span>
+
+                                (#{player.modes[awaited_current_match.kind].rank})
                                 {#if player.modes[awaited_current_match.kind].rank_level}
                                     <img src={`/images/ranks/${player.modes[awaited_current_match.kind].rank_level}.png`} class="rank-icon" width="27" height="31" alt={player.modes[awaited_current_match.kind].rank_level}>
                                     {convert_to_roman(player.modes[awaited_current_match.kind].rank_level)}
@@ -154,6 +156,7 @@
         color: rgb(175 148 78);
         color: #D2AF26;
         margin-left: 5px;
+        margin-right: 5px;
     }
 
     .rank-icon {
