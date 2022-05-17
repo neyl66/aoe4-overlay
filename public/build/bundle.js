@@ -1316,9 +1316,9 @@ var app = (function () {
     			img = element("img");
     			t0 = space();
     			t1 = text(t1_value);
-    			if (!src_url_equal(img.src, img_src_value = `/images/ranks/${/*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level}.png`)) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = `/images/ranks/svg/${/*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level}.svg`)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "class", "rank-icon svelte-1ha94mz");
-    			attr_dev(img, "width", "27");
+    			attr_dev(img, "width", "31");
     			attr_dev(img, "height", "31");
     			attr_dev(img, "alt", img_alt_value = /*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level);
     			add_location(img, file$1, 134, 36, 4481);
@@ -1329,7 +1329,7 @@ var app = (function () {
     			insert_dev(target, t1, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$current_match*/ 1 && !src_url_equal(img.src, img_src_value = `/images/ranks/${/*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level}.png`)) {
+    			if (dirty & /*$current_match*/ 1 && !src_url_equal(img.src, img_src_value = `/images/ranks/svg/${/*player*/ ctx[13].modes[/*awaited_current_match*/ ctx[9].kind].rank_level}.svg`)) {
     				attr_dev(img, "src", img_src_value);
     			}
 
@@ -1429,17 +1429,17 @@ var app = (function () {
     			add_location(span0, file$1, 127, 32, 4051);
     			attr_dev(path, "fill", "#fff");
     			attr_dev(path, "d", "M5 0c0 9.803 5.105 12.053 5.604 16h2.805c.497-3.947 5.591-6.197 5.591-16h-14zm7.006 14.62c-.408-.998-.969-1.959-1.548-2.953-1.422-2.438-3.011-5.162-3.379-9.667h9.842c-.368 4.506-1.953 7.23-3.372 9.669-.577.993-1.136 1.954-1.543 2.951zm-.006-3.073c-1.125-2.563-1.849-5.599-1.857-8.547h-1.383c.374 3.118 1.857 7.023 3.24 8.547zm12-9.547c-.372 4.105-2.808 8.091-6.873 9.438.297-.552.596-1.145.882-1.783 2.915-1.521 4.037-4.25 4.464-6.251h-2.688c.059-.45.103-.922.139-1.405h4.076zm-24 0c.372 4.105 2.808 8.091 6.873 9.438-.297-.552-.596-1.145-.882-1.783-2.915-1.521-4.037-4.25-4.464-6.251h2.688c-.058-.449-.102-.922-.138-1.404h-4.077zm13.438 15h-2.866c-.202 1.187-1.63 2.619-3.571 2.619v4.381h10v-4.381c-1.999 0-3.371-1.432-3.563-2.619zm2.562 6h-8v-2h8v2z");
-    			add_location(path, file$1, 140, 136, 5075);
+    			add_location(path, file$1, 140, 136, 5079);
     			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg, "width", "25");
     			attr_dev(svg, "height", "25");
     			attr_dev(svg, "viewBox", "0 0 24 24");
     			attr_dev(svg, "class", "winrate-icon svelte-1ha94mz");
-    			add_location(svg, file$1, 140, 32, 4971);
+    			add_location(svg, file$1, 140, 32, 4975);
     			attr_dev(span1, "class", "win svelte-1ha94mz");
-    			add_location(span1, file$1, 143, 32, 5933);
+    			add_location(span1, file$1, 143, 32, 5937);
     			attr_dev(span2, "class", "loss svelte-1ha94mz");
-    			add_location(span2, file$1, 145, 32, 6086);
+    			add_location(span2, file$1, 145, 32, 6090);
     			attr_dev(div, "class", "player svelte-1ha94mz");
     			add_location(div, file$1, 122, 28, 3753);
     		},

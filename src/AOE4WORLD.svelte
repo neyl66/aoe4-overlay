@@ -132,7 +132,7 @@
                                 {/if}
 
                                 {#if player.modes[awaited_current_match.kind].rank_level}
-                                    <img src={`/images/ranks/${player.modes[awaited_current_match.kind].rank_level}.png`} class="rank-icon" width="27" height="31" alt={player.modes[awaited_current_match.kind].rank_level}>
+                                    <img src={`/images/ranks/svg/${player.modes[awaited_current_match.kind].rank_level}.svg`} class="rank-icon" width="31" height="31" alt={player.modes[awaited_current_match.kind].rank_level}>
                                     {convert_to_roman(player.modes[awaited_current_match.kind].rank_level)}
                                 {/if}
 
